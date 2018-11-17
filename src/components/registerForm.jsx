@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -16,7 +17,7 @@ const styles = theme => ({
   },
 });
 
-class LoginForm extends Component {
+class RegisterForm extends Component {
   state = {
     data: { email: '', password: '' },
   };
@@ -32,11 +33,10 @@ class LoginForm extends Component {
     e.preventDefault();
 
     try {
-      const { data } = this.state;
-      await auth.login(data.email, data.password);
-
-      // In App.js, componentDidMount is only executed once.
-      // Reload the whole application to save the token after user logged in.
+      // response.data = {_id: "xx", email: "user@gmail.com"}
+      // response.headers = { x-auth: xx }
+      const response = await auth.register(this.state.data);
+      auth.loginWithJwt(response.headers['x-auth']);
       window.location = '/';
     } catch (ex) {
       if (
@@ -54,7 +54,7 @@ class LoginForm extends Component {
 
     return (
       <div className={classes.root}>
-        <h1>Login</h1>
+        <h1>Register</h1>
         <form onSubmit={this.handleSubmit}>
           <TextField
             onChange={this.handleChange}
@@ -85,8 +85,8 @@ class LoginForm extends Component {
   }
 }
 
-LoginForm.propTypes = {
+RegisterForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(LoginForm);
+export default withStyles(styles)(RegisterForm);
