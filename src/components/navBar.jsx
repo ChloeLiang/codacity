@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link, NavLink } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,6 +14,10 @@ const styles = {
   grow: {
     flexGrow: 1,
   },
+  link: {
+    color: 'white',
+    textDecoration: 'none',
+  },
 };
 
 function NavBar({ classes }) {
@@ -21,9 +26,22 @@ function NavBar({ classes }) {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            CodeNinja
+            <Link className={classes.link} to="/">
+              CodeNinja
+            </Link>
           </Typography>
-          <Button color="inherit">Login</Button>
+
+          <Button color="inherit">
+            <NavLink className={classes.link} to="/login">
+              Login
+            </NavLink>
+          </Button>
+
+          <Button color="inherit">
+            <NavLink className={classes.link} to="/register">
+              Register
+            </NavLink>
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
