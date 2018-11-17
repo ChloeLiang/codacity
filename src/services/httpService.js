@@ -14,9 +14,16 @@ axios.interceptors.response.use(null, error => {
   return Promise.reject(error);
 });
 
+// To prevent bi-directional dependencies between http and auth.
+function setJwt(jwt) {
+  // Set default headers for authorization when sending any request to the server.
+  axios.defaults.headers.common['x-auth'] = jwt;
+}
+
 export default {
   get: axios.get,
   post: axios.post,
   put: axios.put,
   delete: axios.delete,
+  setJwt,
 };

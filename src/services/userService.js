@@ -5,6 +5,9 @@ import { apiUrl } from '../config.json';
 const apiEndpoint = apiUrl + '/users';
 const tokenKey = 'token';
 
+// Get rid of bi-directional dependencies between http and auth.
+http.setJwt(getJwt());
+
 export function register(user) {
   return http.post(apiEndpoint, {
     email: user.email,
@@ -39,10 +42,15 @@ export function getCurrentUser() {
   }
 }
 
+export function getJwt() {
+  return localStorage.getItem(tokenKey);
+}
+
 export default {
   register,
   loginWithJwt,
   login,
   logout,
   getCurrentUser,
+  getJwt,
 };
