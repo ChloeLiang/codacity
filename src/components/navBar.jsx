@@ -57,7 +57,16 @@ class NavBar extends Component {
               </React.Fragment>
             )}
 
-            {user && <UserSettings />}
+            {user && (
+              <React.Fragment>
+                <Button color="inherit">
+                  <NavLink className={classes.link} to="/decks">
+                    Decks
+                  </NavLink>
+                </Button>
+                <UserSettings />
+              </React.Fragment>
+            )}
           </Toolbar>
         </AppBar>
       </div>

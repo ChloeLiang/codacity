@@ -1,15 +1,25 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
+import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import NavBar from './components/navBar';
 import LoginForm from './components/loginForm';
 import RegisterFrom from './components/registerForm';
 import Logout from './components/logout';
+import Decks from './components/decks';
 import auth from './services/userService';
 
-import './App.css';
+const styles = theme => ({
+  root: {
+    maxWidth: '900px',
+    margin: '0 auto',
+    padding: theme.spacing.unit * 2,
+  },
+});
 
 class App extends Component {
   state = {};
@@ -20,20 +30,33 @@ class App extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     const { user } = this.state;
 
     return (
       <React.Fragment>
         <CssBaseline />
+        <ToastContainer />
         <NavBar user={user} />
-        <Switch>
-          <Route path="/login" component={LoginForm} />
-          <Route path="/register" component={RegisterFrom} />
-          <Route path="/logout" component={Logout} />
-        </Switch>
+        <main className={classes.root}>
+          <Switch>
+            <Route path="/login" component={LoginForm} />
+            <Route path="/register" component={RegisterFrom} />
+            <Route path="/logout" component={Logout} />
+            <Route
+              path="/decks"
+              render={props => <Decks {...props} user={this.state.user} />}
+            />
+            <Redirect from="/" exact to="/decks" />
+          </Switch>
+        </main>
       </React.Fragment>
     );
   }
 }
 
-export default App;
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(App);
