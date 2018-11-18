@@ -7,10 +7,12 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
+import { getCurrentUser } from '../services/userService';
+import { saveCard } from '../services/cardService';
 
 class CardForm extends Component {
   state = {
-    data: { front: '', back: '', _deck: '', _creator: this.props.user },
+    data: { front: '', back: '', _deck: '', _creator: getCurrentUser()._id },
     decks: [],
   };
 
@@ -24,6 +26,22 @@ class CardForm extends Component {
   async componentDidMount() {
     await this.populateDecks();
   }
+
+  handleChange = (value, name) => {
+    const data = { ...this.state.data };
+    data[name] = value;
+    this.setState({ data });
+  };
+
+  handleSaveCard = async card => {
+    const data = { ...this.state.data };
+    data.front = '';
+    data.back = '';
+    this.setState({ data });
+
+    const { data: result } = await saveCard(card);
+    console.log(result);
+  };
 
   render() {
     const { data, decks } = this.state;
@@ -42,7 +60,7 @@ class CardForm extends Component {
           </InputLabel>
           <Select
             value={data._deck}
-            onChange={this.handleChange}
+            onChange={e => this.handleChange(e.target.value, '_deck')}
             input={<OutlinedInput labelWidth={35} name="deck" id="deck" />}
           >
             {decks.map(deck => (
@@ -54,6 +72,8 @@ class CardForm extends Component {
         </FormControl>
         <form>
           <TextField
+            onChange={e => this.handleChange(e.target.value, 'front')}
+            value={data.front}
             label="Front"
             name="front"
             multiline
@@ -63,6 +83,8 @@ class CardForm extends Component {
             fullWidth
           />
           <TextField
+            onChange={e => this.handleChange(e.target.value, 'back')}
+            value={data.back}
             label="Back"
             name="back"
             multiline
@@ -71,7 +93,11 @@ class CardForm extends Component {
             variant="outlined"
             fullWidth
           />
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => this.handleSaveCard(data)}
+          >
             Submit
           </Button>
         </form>

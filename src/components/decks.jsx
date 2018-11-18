@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ListItemText from '@material-ui/core/ListItemText';
 import { getDecks, saveDeck } from '../services/deckService';
+import { getCurrentUser } from '../services/userService';
 
 const styles = theme => ({
   button: {
@@ -25,7 +26,7 @@ const styles = theme => ({
 
 class Decks extends Component {
   state = {
-    data: { name: '', _creator: this.props.user },
+    data: { name: '', _creator: getCurrentUser()._id },
     decks: [],
   };
 
