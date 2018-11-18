@@ -11,6 +11,7 @@ import LoginForm from './components/loginForm';
 import RegisterFrom from './components/registerForm';
 import Logout from './components/logout';
 import Decks from './components/decks';
+import CardForm from './components/cardForm';
 import auth from './services/userService';
 
 const styles = theme => ({
@@ -43,6 +44,10 @@ class App extends Component {
             <Route path="/login" component={LoginForm} />
             <Route path="/register" component={RegisterFrom} />
             <Route path="/logout" component={Logout} />
+            <Route
+              path="/cards/new"
+              render={props => <CardForm {...props} user={this.state.user} />}
+            />
             <Route
               path="/decks"
               render={props => <Decks {...props} user={this.state.user} />}

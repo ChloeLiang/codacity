@@ -64,6 +64,11 @@ class NavBar extends Component {
                     Decks
                   </NavLink>
                 </Button>
+                <Button color="inherit">
+                  <NavLink className={classes.link} to="/cards/new">
+                    Add Card
+                  </NavLink>
+                </Button>
                 <UserSettings />
               </React.Fragment>
             )}

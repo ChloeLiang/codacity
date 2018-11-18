@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ListItemText from '@material-ui/core/ListItemText';
 import { getDecks, saveDeck } from '../services/deckService';
-import ListItemLink from './listItemLink';
 
 const styles = theme => ({
   button: {
@@ -15,6 +16,10 @@ const styles = theme => ({
   },
   grow: {
     flexGrow: 1,
+  },
+  link: {
+    color: 'black',
+    textDecoration: 'none',
   },
 });
 
@@ -74,9 +79,15 @@ class Decks extends Component {
         </Grid>
         <List>
           {decks.map(deck => (
-            <ListItemLink key={deck._id} href={`/decks/${deck._id}`}>
-              <ListItemText primary={deck.name} />
-            </ListItemLink>
+            <NavLink
+              key={deck._id}
+              className={classes.link}
+              to={`/decks/${deck._id}/cards`}
+            >
+              <ListItem button>
+                <ListItemText primary={deck.name} />
+              </ListItem>
+            </NavLink>
           ))}
         </List>
       </React.Fragment>
