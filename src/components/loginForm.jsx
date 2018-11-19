@@ -37,7 +37,7 @@ class LoginForm extends Component {
 
       // In App.js, componentDidMount is only executed once.
       // Reload the whole application to save the token after user logged in.
-      window.location = '/';
+      window.location = '/decks';
     } catch (ex) {
       if (
         ex.response &&

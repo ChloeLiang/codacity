@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
-import { getCardsInDeck } from '../services/cardService';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import { getCardsInDeck } from '../services/cardService';
 
 const styles = theme => ({
   grow: {
@@ -27,6 +27,7 @@ class Card extends Component {
   state = {
     index: 0,
     cards: [],
+    isLoading: true,
     isAnswered: false,
   };
 
@@ -34,7 +35,7 @@ class Card extends Component {
     const deckId = this.props.match.params.id;
     const { data: cards } = await getCardsInDeck(deckId);
     console.log(cards);
-    this.setState({ cards });
+    this.setState({ cards, isLoading: false });
   }
 
   handleAnswer = () => {
@@ -49,12 +50,11 @@ class Card extends Component {
 
   render() {
     const { classes } = this.props;
-    const { index, cards, isAnswered } = this.state;
-    const hasCard = cards.length !== 0;
+    const { index, cards, isLoading, isAnswered } = this.state;
 
     return (
       <React.Fragment>
-        {hasCard && index <= cards.length - 1 && (
+        {!isLoading && index <= cards.length - 1 && (
           <React.Fragment>
             <Grid container direction="column" className={classes.grow}>
               <ReactMarkdown source={cards[index].front} />
@@ -122,7 +122,7 @@ class Card extends Component {
             </Grid>
           </React.Fragment>
         )}
-        {hasCard && index >= cards.length && (
+        {!isLoading && index >= cards.length && (
           <Typography variant="h6">
             Congratulations! You have finished this deck for today.
           </Typography>

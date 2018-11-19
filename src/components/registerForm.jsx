@@ -37,7 +37,7 @@ class RegisterForm extends Component {
       // response.headers = { x-auth: xx }
       const response = await auth.register(this.state.data);
       auth.loginWithJwt(response.headers['x-auth']);
-      window.location = '/';
+      window.location = '/decks';
     } catch (ex) {
       if (
         ex.response &&
