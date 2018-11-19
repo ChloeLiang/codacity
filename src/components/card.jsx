@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactMarkdown from 'react-markdown';
 import { getCardsInDeck } from '../services/cardService';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -56,11 +57,12 @@ class Card extends Component {
         {hasCard && index <= cards.length - 1 && (
           <React.Fragment>
             <Grid container direction="column" className={classes.grow}>
-              <Typography component="p">{cards[index].front}</Typography>
+              <ReactMarkdown source={cards[index].front} />
               {isAnswered && (
-                <Typography component="p" className={classes.back}>
-                  {cards[index].back}
-                </Typography>
+                <ReactMarkdown
+                  className={classes.back}
+                  source={cards[index].back}
+                />
               )}
             </Grid>
             <Grid
