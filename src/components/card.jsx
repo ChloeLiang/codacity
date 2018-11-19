@@ -43,7 +43,7 @@ class Card extends Component {
   handleSpacedRepetition = () => {
     console.log('update card repetition');
     const index = this.state.index + 1;
-    this.setState({ index });
+    this.setState({ index, isAnswered: false });
   };
 
   render() {
