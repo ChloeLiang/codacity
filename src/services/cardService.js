@@ -12,3 +12,7 @@ export function saveCard(card) {
 
   return http.post(`${apiUrl}/decks/${card._deck}/cards`, card);
 }
+
+export function getCardsInDeck(deckId) {
+  return http.get(`${apiUrl}/decks/${deckId}/cards`);
+}

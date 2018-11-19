@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
 
 import NavBar from './components/navBar';
 import LoginForm from './components/loginForm';
@@ -12,13 +13,16 @@ import RegisterFrom from './components/registerForm';
 import Logout from './components/logout';
 import Decks from './components/decks';
 import CardForm from './components/cardForm';
+import Card from './components/card';
 import auth from './services/userService';
 
 const styles = theme => ({
   root: {
-    maxWidth: '900px',
-    margin: '0 auto',
-    padding: theme.spacing.unit * 2,
+    height: '100vh',
+  },
+  container: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
   },
 });
 
@@ -38,18 +42,26 @@ class App extends Component {
       <React.Fragment>
         <CssBaseline />
         <ToastContainer />
-        <NavBar user={user} />
-        <main className={classes.root}>
-          <Switch>
-            <Route path="/login" component={LoginForm} />
-            <Route path="/register" component={RegisterFrom} />
-            <Route path="/logout" component={Logout} />
-            <Route path="/cards/new" component={CardForm} />
-            />
-            <Route path="/decks" component={Decks} />} />
-            <Redirect from="/" exact to="/decks" />
-          </Switch>
-        </main>
+        <Grid
+          container
+          direction="column"
+          alignItems="stretch"
+          className={classes.root}
+        >
+          <NavBar user={user} />
+          <Grid container direction="column" className={classes.container}>
+            <Switch>
+              <Route path="/login" component={LoginForm} />
+              <Route path="/register" component={RegisterFrom} />
+              <Route path="/logout" component={Logout} />
+              <Route path="/cards/new" component={CardForm} />
+              />
+              <Route path="/decks/:id/cards" component={Card} />
+              <Route path="/decks" component={Decks} />} />
+              <Redirect from="/" exact to="/decks" />
+            </Switch>
+          </Grid>
+        </Grid>
       </React.Fragment>
     );
   }

@@ -7,13 +7,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 import UserSettings from './userSettings';
 
 const styles = {
-  root: {
-    flexGrow: 1,
-  },
   grow: {
     flexGrow: 1,
   },
@@ -32,7 +30,7 @@ class NavBar extends Component {
     const { classes, user } = this.props;
 
     return (
-      <div className={classes.root}>
+      <Grid container>
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" color="inherit" className={classes.grow}>
@@ -74,7 +72,7 @@ class NavBar extends Component {
             )}
           </Toolbar>
         </AppBar>
-      </div>
+      </Grid>
     );
   }
 }
