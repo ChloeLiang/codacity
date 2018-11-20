@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import Joi from 'joi-browser';
 import { NavLink } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import ListItemText from '@material-ui/core/ListItemText';
+import Form from './form';
 import { getDecks, saveDeck } from '../services/deckService';
 import { getCurrentUser } from '../services/userService';
 
@@ -16,6 +16,7 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
   },
   grow: {
+    width: 0,
     flexGrow: 1,
   },
   link: {
@@ -24,10 +25,20 @@ const styles = theme => ({
   },
 });
 
-class Decks extends Component {
+class Decks extends Form {
   state = {
     data: { name: '', _creator: getCurrentUser()._id },
     decks: [],
+    errors: {},
+  };
+
+  schema = {
+    name: Joi.string()
+      .required()
+      .label('Name'),
+    _creator: Joi.string()
+      .required()
+      .label('Creator'),
   };
 
   async componentDidMount() {
@@ -35,14 +46,7 @@ class Decks extends Component {
     this.setState({ decks });
   }
 
-  handleChange = ({ target: input }) => {
-    const data = { ...this.state.data };
-    data[input.name] = input.value;
-
-    this.setState({ data });
-  };
-
-  handleSaveDeck = async () => {
+  doSubmit = async () => {
     const data = { ...this.state.data };
     data.name = '';
     this.setState({ data });
@@ -57,27 +61,23 @@ class Decks extends Component {
 
   render() {
     const { classes } = this.props;
-    const { data, decks } = this.state;
+    const { decks } = this.state;
 
     return (
       <React.Fragment>
-        <Grid container justify="center">
-          <TextField
-            name="name"
-            placeholder="Add a new deck"
-            className={classes.grow}
-            value={data.name}
-            onChange={this.handleChange}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={this.handleSaveDeck}
-          >
-            Add Deck
-          </Button>
-        </Grid>
+        <form onSubmit={this.handleSubmit}>
+          <Grid container justify="center">
+            {this.renderInput('name', 'Add a new deck', 'text', {
+              className: classes.grow,
+            })}
+            {this.renderButton('Add Deck', {
+              variant: 'contained',
+              color: 'primary',
+              className: classes.button,
+              type: 'submit',
+            })}
+          </Grid>
+        </form>
         <List>
           {decks.map(deck => (
             <NavLink
