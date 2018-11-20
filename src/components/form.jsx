@@ -43,6 +43,18 @@ class Form extends Component {
     this.setState({ data, errors });
   };
 
+  handleSubmit = e => {
+    e.preventDefault();
+
+    const errors = this.validate();
+    this.setState({ errors: errors || {} });
+    if (errors) {
+      return;
+    }
+
+    this.doSubmit();
+  };
+
   renderInput = (name, label, type, rest) => {
     const { data, errors } = this.state;
     const error = errors[name];

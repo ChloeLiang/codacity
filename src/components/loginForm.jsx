@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Joi from 'joi-browser';
+import { toast } from 'react-toastify';
 import { withStyles } from '@material-ui/core/styles';
 import Form from './form';
 
@@ -20,8 +21,10 @@ class LoginForm extends Form {
   state = {
     data: { email: '', password: '' },
 
-    // 0 or more key-value pairs. Key is the name of the target field. Value is
-    // an error message.
+    // 0 or more key-value pairs.
+    // Key is the name of the target field.
+    // Value is an error message.
+    // "submit" stores form submission error.
     errors: {},
   };
 
@@ -35,9 +38,7 @@ class LoginForm extends Form {
       .label('Password'),
   };
 
-  handleSubmit = async e => {
-    e.preventDefault();
-
+  doSubmit = async () => {
     try {
       const { data } = this.state;
       await auth.login(data.email, data.password);
@@ -46,12 +47,8 @@ class LoginForm extends Form {
       // Reload the whole application to save the token after user logged in.
       window.location = '/decks';
     } catch (ex) {
-      if (
-        ex.response &&
-        ex.response.status >= 400 &&
-        ex.response.status < 500
-      ) {
-        console.log(ex.response.data);
+      if (ex.response && ex.response.status === 400) {
+        toast.error(ex.response.data);
       }
     }
   };

@@ -16,6 +16,8 @@ import CardForm from './components/cardForm';
 import Card from './components/card';
 import auth from './services/userService';
 
+import 'react-toastify/dist/ReactToastify.css';
+
 const styles = theme => ({
   root: {
     height: '100vh',
@@ -40,8 +42,8 @@ class App extends Component {
 
     return (
       <React.Fragment>
-        <CssBaseline />
         <ToastContainer />
+        <CssBaseline />
         <Grid
           container
           direction="column"
