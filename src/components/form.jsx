@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import Joi from 'joi-browser';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 
 class Form extends Component {
   state = { data: {}, errors: {} };
@@ -70,6 +75,34 @@ class Form extends Component {
         name={name}
         fullWidth
       />
+    );
+  };
+
+  renderSelect = (name, label, options) => {
+    const { data } = this.state;
+
+    return (
+      <FormControl variant="outlined">
+        <InputLabel
+          ref={ref => {
+            this.InputLabelRef = ref;
+          }}
+          htmlFor={name}
+        >
+          {label}
+        </InputLabel>
+        <Select
+          value={data._deck}
+          onChange={this.handleChange}
+          input={<OutlinedInput labelWidth={35} name={name} id={name} />}
+        >
+          {options.map(deck => (
+            <MenuItem key={deck._id} value={deck._id}>
+              {deck.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     );
   };
 

@@ -28,7 +28,7 @@ class RegisterForm extends Form {
     email: Joi.string()
       .required()
       .email()
-      .label('Username'),
+      .label('Email'),
     password: Joi.string()
       .required()
       .min(6)

@@ -1,19 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Joi from 'joi-browser';
 import { getDecks } from '../services/deckService';
-import TextField from '@material-ui/core/TextField';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
+import Form from './form';
 import { getCurrentUser } from '../services/userService';
 import { saveCard } from '../services/cardService';
 
-class CardForm extends Component {
+class CardForm extends Form {
   state = {
     data: { front: '', back: '', _deck: '', _creator: getCurrentUser()._id },
     decks: [],
+    errors: {},
+  };
+
+  schema = {
+    front: Joi.string()
+      .required()
+      .label('Front'),
+    back: Joi.string()
+      .required()
+      .label('Back'),
+    _deck: Joi.string()
+      .required()
+      .label('Deck'),
+    _creator: Joi.string()
+      .required()
+      .label('Creator'),
   };
 
   async populateDecks() {
@@ -27,14 +38,9 @@ class CardForm extends Component {
     await this.populateDecks();
   }
 
-  handleChange = (value, name) => {
+  doSubmit = async () => {
     const data = { ...this.state.data };
-    data[name] = value;
-    this.setState({ data });
-  };
-
-  handleSaveCard = async card => {
-    const data = { ...this.state.data };
+    const card = { ...this.state.data };
     data.front = '';
     data.back = '';
     this.setState({ data });
@@ -44,62 +50,28 @@ class CardForm extends Component {
   };
 
   render() {
-    const { data, decks } = this.state;
-
     return (
       <div>
         <h1>New Card</h1>
-        <FormControl variant="outlined">
-          <InputLabel
-            ref={ref => {
-              this.InputLabelRef = ref;
-            }}
-            htmlFor="deck"
-          >
-            Deck
-          </InputLabel>
-          <Select
-            value={data._deck}
-            onChange={e => this.handleChange(e.target.value, '_deck')}
-            input={<OutlinedInput labelWidth={35} name="deck" id="deck" />}
-          >
-            {decks.map(deck => (
-              <MenuItem key={deck._id} value={deck._id}>
-                {deck.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <form>
-          <TextField
-            onChange={e => this.handleChange(e.target.value, 'front')}
-            value={data.front}
-            label="Front"
-            name="front"
-            multiline
-            rows="4"
-            margin="normal"
-            variant="outlined"
-            fullWidth
-          />
-          <TextField
-            onChange={e => this.handleChange(e.target.value, 'back')}
-            value={data.back}
-            label="Back"
-            name="back"
-            multiline
-            rows="4"
-            margin="normal"
-            variant="outlined"
-            fullWidth
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => this.handleSaveCard(data)}
-          >
-            Submit
-          </Button>
+        <form onSubmit={this.handleSubmit}>
+          {this.renderSelect('_deck', 'Deck', this.state.decks)}
+          {this.renderInput('front', 'Front', 'text', {
+            multiline: true,
+            rows: '4',
+            variant: 'outlined',
+            margin: 'normal',
+          })}
+          {this.renderInput('back', 'Back', 'text', {
+            multiline: true,
+            rows: '4',
+            variant: 'outlined',
+            margin: 'normal',
+          })}
+          {this.renderButton('Add to deck', {
+            variant: 'contained',
+            color: 'primary',
+            type: 'submit',
+          })}
         </form>
       </div>
     );
