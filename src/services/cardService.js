@@ -7,7 +7,7 @@ export function saveCard(card) {
   if (card._id) {
     const body = { ...card };
     delete body._id;
-    return http.patch(`${apiEndpoint}/${card._id}`, body);
+    return http.put(`${apiEndpoint}/${card._id}`, body);
   }
 
   return http.post(`${apiUrl}/decks/${card._deck}/cards`, card);
