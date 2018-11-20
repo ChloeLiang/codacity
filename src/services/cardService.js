@@ -16,3 +16,7 @@ export function saveCard(card) {
 export function getCardsInDeck(deckId) {
   return http.get(`${apiUrl}/decks/${deckId}/cards`);
 }
+
+export function getCard(cardId) {
+  return http.get(`${apiEndpoint}/${cardId}`);
+}

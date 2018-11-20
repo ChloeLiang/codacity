@@ -3,7 +3,7 @@ import Joi from 'joi-browser';
 import { getDecks } from '../services/deckService';
 import Form from './form';
 import { getCurrentUser } from '../services/userService';
-import { saveCard } from '../services/cardService';
+import { saveCard, getCard } from '../services/cardService';
 
 class CardForm extends Form {
   state = {
@@ -13,6 +13,7 @@ class CardForm extends Form {
   };
 
   schema = {
+    _id: Joi.string(),
     front: Joi.string()
       .required()
       .label('Front'),
@@ -27,6 +28,16 @@ class CardForm extends Form {
       .label('Creator'),
   };
 
+  mapToModel = card => {
+    return {
+      _id: card._id,
+      front: card.front,
+      back: card.back,
+      _deck: card._deck,
+      _creator: card._creator,
+    };
+  };
+
   async populateDecks() {
     const { data: decks } = await getDecks();
     const data = { ...this.state.data };
@@ -34,8 +45,23 @@ class CardForm extends Form {
     this.setState({ decks, data });
   }
 
+  async populateCard() {
+    try {
+      const cardId = this.props.match.params.id;
+      if (cardId === 'new') return;
+
+      const { data: card } = await getCard(cardId);
+      this.setState({ data: this.mapToModel(card) });
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        //TODO: create a not found page
+        this.props.history.replace('/not-found');
+    }
+  }
+
   async componentDidMount() {
     await this.populateDecks();
+    await this.populateCard();
   }
 
   doSubmit = async () => {
@@ -52,7 +78,7 @@ class CardForm extends Form {
   render() {
     return (
       <div>
-        <h1>New Card</h1>
+        <h1>Card</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderSelect('_deck', 'Deck', this.state.decks)}
           {this.renderInput('front', 'Front', 'text', {
@@ -67,7 +93,7 @@ class CardForm extends Form {
             variant: 'outlined',
             margin: 'normal',
           })}
-          {this.renderButton('Add to deck', {
+          {this.renderButton('Save', {
             variant: 'contained',
             color: 'primary',
             type: 'submit',
