@@ -6,6 +6,21 @@ import Button from '@material-ui/core/Button';
 class Form extends Component {
   state = { data: {}, errors: {} };
 
+  validate = () => {
+    const options = { abortEarly: false };
+    const { error } = Joi.validate(this.state.data, this.schema, options);
+    if (!error) {
+      return null;
+    }
+
+    const errors = {};
+    for (let item of error.details) {
+      errors[item.path[0]] = item.message;
+    }
+
+    return errors;
+  };
+
   validateProperty = ({ name, value }) => {
     const obj = { [name]: value };
     const schema = { [name]: this.schema[name] };
@@ -18,6 +33,8 @@ class Form extends Component {
     const errorMessage = this.validateProperty(input);
     if (errorMessage) {
       errors[input.name] = errorMessage;
+    } else {
+      delete errors[input.name];
     }
 
     const data = { ...this.state.data };
@@ -27,12 +44,17 @@ class Form extends Component {
   };
 
   renderInput = (name, label, type, rest) => {
+    const { data, errors } = this.state;
+    const error = errors[name];
+
     return (
       <TextField
         {...rest}
+        error={!!error}
         onChange={this.handleChange}
+        value={data[name]}
         type={type}
-        label={label}
+        label={error || label}
         name={name}
         fullWidth
       />
@@ -40,7 +62,11 @@ class Form extends Component {
   };
 
   renderButton = (label, rest) => {
-    return <Button {...rest}>{label}</Button>;
+    return (
+      <Button disabled={!!this.validate()} {...rest}>
+        {label}
+      </Button>
+    );
   };
 }
 

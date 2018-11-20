@@ -28,6 +28,7 @@ class LoginForm extends Form {
   schema = {
     email: Joi.string()
       .required()
+      .email()
       .label('Email'),
     password: Joi.string()
       .required()
@@ -64,11 +65,9 @@ class LoginForm extends Form {
         <form onSubmit={this.handleSubmit}>
           {this.renderInput('email', 'Email', 'text', {
             className: classes.textField,
-            variant: 'outlined',
           })}
           {this.renderInput('password', 'Password', 'password', {
             className: classes.textField,
-            variant: 'outlined',
           })}
           {this.renderButton('Login', {
             variant: 'contained',
