@@ -20,3 +20,7 @@ export function getCardsInDeck(deckId) {
 export function getCard(cardId) {
   return http.get(`${apiEndpoint}/${cardId}`);
 }
+
+export function deleteCard(cardId) {
+  return http.delete(`${apiEndpoint}/${cardId}`);
+}

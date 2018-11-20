@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import moment from 'moment';
@@ -6,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { getCardsInDeck, saveCard } from '../services/cardService';
+import { getCardsInDeck, saveCard, deleteCard } from '../services/cardService';
 
 const styles = theme => ({
   grow: {
@@ -21,6 +22,13 @@ const styles = theme => ({
   },
   buttons: {
     marginTop: theme.spacing.unit * 2,
+    marginLeft: theme.spacing.unit,
+  },
+  button: {
+    marginLeft: theme.spacing.unit,
+  },
+  link: {
+    textDecoration: 'none',
   },
 });
 
@@ -116,6 +124,15 @@ class Card extends Component {
     console.log(data);
   };
 
+  handleDelete = async () => {
+    let { cards, index } = this.state;
+    const cardId = cards[index]._id;
+    index = index + 1;
+    this.setState({ index, isAnswered: false });
+    const { data } = await deleteCard(cardId);
+    console.log('deleted', data);
+  };
+
   render() {
     const { classes } = this.props;
     const { index, cards, isLoading, isAnswered } = this.state;
@@ -124,6 +141,24 @@ class Card extends Component {
       <React.Fragment>
         {!isLoading && index <= cards.length - 1 && (
           <React.Fragment>
+            <Grid container>
+              <NavLink
+                to={`/cards/${cards[index]._id}`}
+                className={classes.link}
+              >
+                <Button variant="outlined" color="primary">
+                  Edit
+                </Button>
+              </NavLink>
+              <Button
+                onClick={this.handleDelete}
+                variant="outlined"
+                color="secondary"
+                className={classes.button}
+              >
+                Delete
+              </Button>
+            </Grid>
             <Grid container direction="column" className={classes.grow}>
               <ReactMarkdown source={cards[index].front} />
               {isAnswered && (
