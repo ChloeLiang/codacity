@@ -34,7 +34,8 @@ class Card extends Component {
 
   async componentDidMount() {
     const deckId = this.props.match.params.id;
-    const { data: cards } = await getCardsInDeck(deckId);
+    let { data: cards } = await getCardsInDeck(deckId);
+    cards = cards.filter(card => moment().isSameOrAfter(card.next));
     console.log(cards);
     this.setState({ cards, isLoading: false });
   }
@@ -150,32 +151,46 @@ class Card extends Component {
               {isAnswered && (
                 <React.Fragment>
                   <Button
-                    onClick={() => this.handleSpacedRepetition(4)}
+                    onClick={() => this.handleSpacedRepetition(0)}
                     variant="contained"
                     color="primary"
                   >
-                    Hard
-                  </Button>
-                  <Button
-                    onClick={() => this.handleSpacedRepetition(3)}
-                    variant="contained"
-                    color="primary"
-                  >
-                    Normal
-                  </Button>
-                  <Button
-                    onClick={() => this.handleSpacedRepetition(2)}
-                    variant="contained"
-                    color="primary"
-                  >
-                    Good
+                    Blackout
                   </Button>
                   <Button
                     onClick={() => this.handleSpacedRepetition(1)}
                     variant="contained"
                     color="primary"
                   >
+                    Hard
+                  </Button>
+                  <Button
+                    onClick={() => this.handleSpacedRepetition(2)}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Normal
+                  </Button>
+                  <Button
+                    onClick={() => this.handleSpacedRepetition(3)}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Good
+                  </Button>
+                  <Button
+                    onClick={() => this.handleSpacedRepetition(4)}
+                    variant="contained"
+                    color="primary"
+                  >
                     Easy
+                  </Button>
+                  <Button
+                    onClick={() => this.handleSpacedRepetition(5)}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Perfect
                   </Button>
                 </React.Fragment>
               )}
