@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
+import Joi from 'joi-browser';
 
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 
+import Form from './form';
 import auth from '../services/userService';
 
 const styles = theme => ({
@@ -17,21 +18,24 @@ const styles = theme => ({
   },
 });
 
-class RegisterForm extends Component {
+class RegisterForm extends Form {
   state = {
     data: { email: '', password: '' },
+    errors: {},
   };
 
-  handleChange = ({ target: input }) => {
-    const data = { ...this.state.data };
-    data[input.name] = input.value;
-
-    this.setState({ data });
+  schema = {
+    email: Joi.string()
+      .required()
+      .email()
+      .label('Username'),
+    password: Joi.string()
+      .required()
+      .min(6)
+      .label('Password'),
   };
 
-  handleSubmit = async e => {
-    e.preventDefault();
-
+  doSubmit = async () => {
     try {
       // response.data = {_id: "xx", email: "user@gmail.com"}
       // response.headers = { x-auth: xx }
@@ -39,12 +43,8 @@ class RegisterForm extends Component {
       auth.loginWithJwt(response.headers['x-auth']);
       window.location = '/decks';
     } catch (ex) {
-      if (
-        ex.response &&
-        ex.response.status >= 400 &&
-        ex.response.status < 500
-      ) {
-        console.log(ex.response.data);
+      if (ex.response && ex.response.status === 400) {
+        toast.error(ex.response.data);
       }
     }
   };
@@ -56,29 +56,17 @@ class RegisterForm extends Component {
       <div className={classes.root}>
         <h1>Register</h1>
         <form onSubmit={this.handleSubmit}>
-          <TextField
-            onChange={this.handleChange}
-            className={classes.textField}
-            variant="outlined"
-            type="email"
-            label="Email"
-            name="email"
-            autoComplete="email"
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            onChange={this.handleChange}
-            className={classes.textField}
-            variant="outlined"
-            type="password"
-            label="Password"
-            name="password"
-            fullWidth
-          />
-          <Button variant="contained" color="primary" type="submit">
-            Submit
-          </Button>
+          {this.renderInput('email', 'Email', 'email', {
+            className: classes.textField,
+          })}
+          {this.renderInput('password', 'Password', 'password', {
+            className: classes.textField,
+          })}
+          {this.renderButton('Sign up', {
+            variant: 'contained',
+            color: 'primary',
+            type: 'submit',
+          })}
         </form>
       </div>
     );
