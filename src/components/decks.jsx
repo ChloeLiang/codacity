@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Joi from 'joi-browser';
 import { toast } from 'react-toastify';
+import moment from 'moment';
 
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -11,6 +12,7 @@ import Form from './form';
 import UpdateDeckForm from './updateDeckForm';
 import SingleItem from './singleItem';
 import { getDecks, saveDeck, deleteDeck } from '../services/deckService';
+import { getCards } from '../services/cardService';
 import { getCurrentUser } from '../services/userService';
 
 const styles = theme => ({
@@ -32,6 +34,7 @@ class Decks extends Form {
   state = {
     data: { name: '', _creator: getCurrentUser()._id },
     decks: [],
+    cards: [],
     errors: {},
     isEditing: null,
   };
@@ -46,7 +49,8 @@ class Decks extends Form {
 
   async componentDidMount() {
     const { data: decks } = await getDecks();
-    this.setState({ decks });
+    const { data: cards } = await getCards();
+    this.setState({ decks, cards });
   }
 
   mapToModel = deck => {
@@ -109,8 +113,9 @@ class Decks extends Form {
     this.setState({ decks });
   };
 
-  renderItem = deck => {
+  renderItem = d => {
     const { isEditing } = this.state;
+    const { deck, count } = d;
 
     if (isEditing === deck._id) {
       return (
@@ -129,15 +134,27 @@ class Decks extends Form {
         url={`/decks/${deck._id}/cards`}
         id={deck._id}
         text={deck.name}
+        count={count}
         onEdit={this.handleEdit}
         onDelete={this.handleDelete}
       />
     );
   };
 
+  getDecksAndCounts = () => {
+    return this.state.decks.map(d => {
+      return {
+        deck: d,
+        count: this.state.cards.filter(
+          c => c._deck === d._id && moment().isSameOrAfter(c.next)
+        ).length,
+      };
+    });
+  };
+
   render() {
     const { classes } = this.props;
-    const { decks } = this.state;
+    const decks = this.getDecksAndCounts();
 
     return (
       <React.Fragment>
@@ -154,7 +171,7 @@ class Decks extends Form {
             })}
           </Grid>
         </form>
-        <List>{decks.map(deck => this.renderItem(deck))}</List>
+        <List>{decks.map(d => this.renderItem(d))}</List>
       </React.Fragment>
     );
   }

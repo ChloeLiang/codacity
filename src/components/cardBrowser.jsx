@@ -151,6 +151,7 @@ class CardBrowser extends Component {
               url={`/cards/${card._id}`}
               id={card._id}
               text={card.front}
+              count={0}
               onEdit={this.handleEdit}
               onDelete={this.handleDelete}
             />
