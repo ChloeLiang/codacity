@@ -15,6 +15,7 @@ import { getCurrentUser } from '../services/userService';
 
 const styles = theme => ({
   button: {
+    alignSelf: 'flex-end',
     marginLeft: theme.spacing.unit,
   },
   grow: {
@@ -126,7 +127,6 @@ class Decks extends Form {
       <SingleItem
         key={deck._id}
         url={`/decks/${deck._id}/cards`}
-        isInlineEdit={true}
         id={deck._id}
         text={deck.name}
         onEdit={this.handleEdit}

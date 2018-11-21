@@ -63,6 +63,11 @@ class NavBar extends Component {
                   </NavLink>
                 </Button>
                 <Button color="inherit">
+                  <NavLink className={classes.link} to="/cards">
+                    Browse Cards
+                  </NavLink>
+                </Button>
+                <Button color="inherit">
                   <NavLink className={classes.link} to="/cards/new">
                     Add Card
                   </NavLink>

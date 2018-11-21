@@ -18,15 +18,7 @@ const styles = () => ({
 class SingleItem extends Component {
   state = {};
   render() {
-    const {
-      classes,
-      url,
-      isInlineEdit,
-      id,
-      text,
-      onEdit,
-      onDelete,
-    } = this.props;
+    const { classes, url, id, text, onEdit, onDelete } = this.props;
 
     return (
       <NavLink className={classes.link} to={url}>
@@ -34,12 +26,7 @@ class SingleItem extends Component {
           <ListItemText primary={text} />
           <ListItemSecondaryAction>
             <IconButton aria-label="Edit">
-              {isInlineEdit && <EditIcon onClick={e => onEdit(e, id)} />}
-              {!isInlineEdit && (
-                <NavLink className={classes.link} to={`${url}/edit`}>
-                  <EditIcon />
-                </NavLink>
-              )}
+              <EditIcon onClick={e => onEdit(e, id)} />
             </IconButton>
             <IconButton aria-label="Delete">
               <DeleteIcon onClick={e => onDelete(e, id)} />

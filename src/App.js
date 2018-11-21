@@ -14,6 +14,7 @@ import Logout from './components/logout';
 import Decks from './components/decks';
 import CardForm from './components/cardForm';
 import Card from './components/card';
+import CardBrowser from './components/cardBrowser';
 import auth from './services/userService';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -57,7 +58,7 @@ class App extends Component {
               <Route path="/register" component={RegisterFrom} />
               <Route path="/logout" component={Logout} />
               <Route path="/cards/:id" component={CardForm} />
-              />
+              <Route path="/cards" component={CardBrowser} />
               <Route path="/decks/:id/cards" component={Card} />
               <Route path="/decks" component={Decks} />} />
             </Switch>
