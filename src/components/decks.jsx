@@ -2,13 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Joi from 'joi-browser';
 import { NavLink } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 import Form from './form';
-import { getDecks, saveDeck } from '../services/deckService';
+import { getDecks, saveDeck, deleteDeck } from '../services/deckService';
 import { getCurrentUser } from '../services/userService';
 
 const styles = theme => ({
@@ -45,6 +51,24 @@ class Decks extends Form {
     const { data: decks } = await getDecks();
     this.setState({ decks });
   }
+
+  handleDelete = async (e, deck) => {
+    e.preventDefault();
+    const originalDecks = this.state.decks;
+    const decks = originalDecks.filter(d => d._id !== deck._id);
+    this.setState({ decks });
+
+    try {
+      const { data } = await deleteDeck(deck._id);
+      console.log(data);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) {
+        toast.error('This deck has already been deleted.');
+
+        this.setState({ decks: originalDecks });
+      }
+    }
+  };
 
   doSubmit = async () => {
     const data = { ...this.state.data };
@@ -87,6 +111,11 @@ class Decks extends Form {
             >
               <ListItem button>
                 <ListItemText primary={deck.name} />
+                <ListItemSecondaryAction>
+                  <IconButton aria-label="Delete">
+                    <DeleteIcon onClick={e => this.handleDelete(e, deck)} />
+                  </IconButton>
+                </ListItemSecondaryAction>
               </ListItem>
             </NavLink>
           ))}

@@ -133,6 +133,8 @@ class Card extends Component {
     console.log('deleted', data);
   };
 
+  renderButton = () => {};
+
   render() {
     const { classes } = this.props;
     const { index, cards, isLoading, isAnswered } = this.state;

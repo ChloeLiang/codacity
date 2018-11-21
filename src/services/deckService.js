@@ -20,3 +20,7 @@ export function saveDeck(deck) {
 
   return http.post(apiEndpoint, deck);
 }
+
+export function deleteDeck(deckId) {
+  return http.delete(`${apiEndpoint}/${deckId}`);
+}
