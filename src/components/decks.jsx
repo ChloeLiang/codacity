@@ -1,21 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Joi from 'joi-browser';
-import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 
 import Form from './form';
 import UpdateDeckForm from './updateDeckForm';
+import SingleItem from './singleItem';
 import { getDecks, saveDeck, deleteDeck } from '../services/deckService';
 import { getCurrentUser } from '../services/userService';
 
@@ -62,20 +56,20 @@ class Decks extends Form {
     };
   };
 
-  handleEdit = async (e, deck) => {
+  handleEdit = async (e, deckId) => {
     e.preventDefault();
-    const isEditing = deck._id;
+    const isEditing = deckId;
     this.setState({ isEditing });
   };
 
-  handleDelete = async (e, deck) => {
+  handleDelete = async (e, deckId) => {
     e.preventDefault();
     const originalDecks = this.state.decks;
-    const decks = originalDecks.filter(d => d._id !== deck._id);
+    const decks = originalDecks.filter(d => d._id !== deckId);
     this.setState({ decks });
 
     try {
-      const { data } = await deleteDeck(deck._id);
+      const { data } = await deleteDeck(deckId);
       console.log(data);
     } catch (ex) {
       if (ex.response && ex.response.status === 404) {
@@ -112,7 +106,6 @@ class Decks extends Form {
 
   renderItem = deck => {
     const { isEditing } = this.state;
-    const { classes } = this.props;
 
     if (isEditing === deck._id) {
       return (
@@ -125,23 +118,15 @@ class Decks extends Form {
     }
 
     return (
-      <NavLink
+      <SingleItem
         key={deck._id}
-        className={classes.link}
-        to={`/decks/${deck._id}/cards`}
-      >
-        <ListItem button>
-          <ListItemText primary={deck.name} />
-          <ListItemSecondaryAction>
-            <IconButton aria-label="Edit">
-              <EditIcon onClick={e => this.handleEdit(e, deck)} />
-            </IconButton>
-            <IconButton aria-label="Delete">
-              <DeleteIcon onClick={e => this.handleDelete(e, deck)} />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-      </NavLink>
+        url={`/decks/${deck._id}/cards`}
+        isInlineEdit={true}
+        id={deck._id}
+        text={deck.name}
+        onEdit={this.handleEdit}
+        onDelete={this.handleDelete}
+      />
     );
   };
 
