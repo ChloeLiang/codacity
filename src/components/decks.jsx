@@ -119,6 +119,7 @@ class Decks extends Form {
 
     return (
       <SingleItem
+        key={deck._id}
         url={`/decks/${deck._id}/cards`}
         isInlineEdit={true}
         id={deck._id}
@@ -126,23 +127,6 @@ class Decks extends Form {
         onEdit={this.handleEdit}
         onDelete={this.handleDelete}
       />
-      // <NavLink
-      //   key={deck._id}
-      //   className={classes.link}
-      //   to={`/decks/${deck._id}/cards`}
-      // >
-      //   <ListItem button>
-      //     <ListItemText primary={deck.name} />
-      //     <ListItemSecondaryAction>
-      //       <IconButton aria-label="Edit">
-      //         <EditIcon onClick={e => this.handleEdit(e, deck)} />
-      //       </IconButton>
-      //       <IconButton aria-label="Delete">
-      //         <DeleteIcon onClick={e => this.handleDelete(e, deck)} />
-      //       </IconButton>
-      //     </ListItemSecondaryAction>
-      //   </ListItem>
-      // </NavLink>
     );
   };
 
