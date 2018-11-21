@@ -7,6 +7,7 @@ import Form from './form';
 
 const styles = theme => ({
   button: {
+    alignSelf: 'flex-end',
     marginLeft: theme.spacing.unit,
   },
   grow: {
@@ -39,7 +40,7 @@ class UpdateDeckForm extends Form {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, onCancel } = this.props;
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -51,7 +52,14 @@ class UpdateDeckForm extends Form {
             variant: 'contained',
             color: 'primary',
             className: classes.button,
+            size: 'small',
             type: 'submit',
+          })}
+          {this.renderButton('Cancel', {
+            variant: 'contained',
+            className: classes.button,
+            size: 'small',
+            onClick: onCancel,
           })}
         </Grid>
       </form>

@@ -91,6 +91,10 @@ class Decks extends Form {
     console.log('deck', deck);
   };
 
+  handleCancel = () => {
+    this.setState({ isEditing: null });
+  };
+
   doSubmit = async () => {
     const data = { ...this.state.data };
     data.name = '';
@@ -113,6 +117,7 @@ class Decks extends Form {
           key={deck._id}
           deck={deck}
           onUpdate={this.handleUpdate}
+          onCancel={this.handleCancel}
         />
       );
     }
