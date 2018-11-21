@@ -15,7 +15,7 @@ export function saveDeck(deck) {
   if (deck._id) {
     const body = { ...deck };
     delete body._id;
-    return http.patch(deckUrl(deck._id), body);
+    return http.put(deckUrl(deck._id), body);
   }
 
   return http.post(apiEndpoint, deck);
