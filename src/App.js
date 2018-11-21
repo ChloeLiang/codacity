@@ -22,10 +22,12 @@ import 'react-toastify/dist/ReactToastify.css';
 const styles = theme => ({
   root: {
     height: '100vh',
+    flexWrap: 'nowrap',
   },
   container: {
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
+    overflow: 'auto',
   },
 });
 
@@ -52,7 +54,7 @@ class App extends Component {
           className={classes.root}
         >
           <NavBar user={user} />
-          <Grid container direction="column" className={classes.container}>
+          <div className={classes.container}>
             <Switch>
               <Route path="/login" component={LoginForm} />
               <Route path="/register" component={RegisterFrom} />
@@ -62,7 +64,7 @@ class App extends Component {
               <Route path="/decks/:id/cards" component={Card} />
               <Route path="/decks" component={Decks} />} />
             </Switch>
-          </Grid>
+          </div>
         </Grid>
       </React.Fragment>
     );

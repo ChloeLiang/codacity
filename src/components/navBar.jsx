@@ -7,7 +7,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 
 import UserSettings from './userSettings';
 
@@ -30,54 +29,52 @@ class NavBar extends Component {
     const { classes, user } = this.props;
 
     return (
-      <Grid container>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" color="inherit" className={classes.grow}>
-              <Link className={classes.link} to="/">
-                CodeNinja
-              </Link>
-            </Typography>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" color="inherit" className={classes.grow}>
+            <Link className={classes.link} to="/">
+              CodeNinja
+            </Link>
+          </Typography>
 
-            {!user && (
-              <React.Fragment>
-                <Button color="inherit">
-                  <NavLink className={classes.link} to="/login">
-                    Login
-                  </NavLink>
-                </Button>
+          {!user && (
+            <React.Fragment>
+              <Button color="inherit">
+                <NavLink className={classes.link} to="/login">
+                  Login
+                </NavLink>
+              </Button>
 
-                <Button color="inherit">
-                  <NavLink className={classes.link} to="/register">
-                    Register
-                  </NavLink>
-                </Button>
-              </React.Fragment>
-            )}
+              <Button color="inherit">
+                <NavLink className={classes.link} to="/register">
+                  Register
+                </NavLink>
+              </Button>
+            </React.Fragment>
+          )}
 
-            {user && (
-              <React.Fragment>
-                <Button color="inherit">
-                  <NavLink className={classes.link} to="/decks">
-                    Decks
-                  </NavLink>
-                </Button>
-                <Button color="inherit">
-                  <NavLink className={classes.link} to="/cards">
-                    Browse Cards
-                  </NavLink>
-                </Button>
-                <Button color="inherit">
-                  <NavLink className={classes.link} to="/cards/new">
-                    Add Card
-                  </NavLink>
-                </Button>
-                <UserSettings />
-              </React.Fragment>
-            )}
-          </Toolbar>
-        </AppBar>
-      </Grid>
+          {user && (
+            <React.Fragment>
+              <Button color="inherit">
+                <NavLink className={classes.link} to="/decks">
+                  Decks
+                </NavLink>
+              </Button>
+              <Button color="inherit">
+                <NavLink className={classes.link} to="/cards">
+                  Browse Cards
+                </NavLink>
+              </Button>
+              <Button color="inherit">
+                <NavLink className={classes.link} to="/cards/new">
+                  Add Card
+                </NavLink>
+              </Button>
+              <UserSettings />
+            </React.Fragment>
+          )}
+        </Toolbar>
+      </AppBar>
     );
   }
 }

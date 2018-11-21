@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import Joi from 'joi-browser';
 import { toast } from 'react-toastify';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
 import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -11,11 +14,19 @@ import SingleItem from './singleItem';
 import { getCardsInDeck, deleteCard } from '../services/cardService';
 import { getDecks } from '../services/deckService';
 
+const styles = theme => ({
+  grow: {
+    flexGrow: 1,
+    marginLeft: theme.spacing.unit * 2,
+  },
+});
+
 class CardBrowser extends Component {
   state = {
     cards: [],
     decks: [],
     selectedDeck: '',
+    searchQuery: '',
   };
 
   schema = {
@@ -26,7 +37,6 @@ class CardBrowser extends Component {
   };
 
   async componentDidMount() {
-    console.log('mount');
     const { data: decks } = await getDecks();
     let cards = [];
     let selectedDeck;
@@ -70,35 +80,71 @@ class CardBrowser extends Component {
     }
   };
 
+  handleSearch = e => {
+    const searchQuery = e.target.value;
+    this.setState({ searchQuery });
+  };
+
+  getFilteredCards = () => {
+    const { selectedDeck, searchQuery, cards: allCards } = this.state;
+    let filtered = allCards;
+    if (searchQuery) {
+      filtered = allCards.filter(
+        c =>
+          c.front.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          c.back.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    } else if (selectedDeck && selectedDeck._id) {
+      filtered = allCards.filter(c => c._deck === selectedDeck._id);
+    }
+
+    return filtered;
+  };
+
   render() {
-    const { cards, decks, selectedDeck } = this.state;
+    const { decks, selectedDeck, searchQuery } = this.state;
+    const { classes } = this.props;
+    const cards = this.getFilteredCards();
 
     return (
       <React.Fragment>
         {decks.length > 0 && (
-          <FormControl variant="outlined">
-            <InputLabel
-              ref={ref => {
-                this.InputLabelRef = ref;
-              }}
-              htmlFor="_deck"
-            >
-              Deck
-            </InputLabel>
-            <Select
-              value={selectedDeck}
-              onChange={this.handleChange}
-              input={<OutlinedInput labelWidth={35} name="_deck" id="_deck" />}
-            >
-              {decks.map(deck => (
-                <MenuItem key={deck._id} value={deck._id}>
-                  {deck.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <Grid container>
+            <FormControl variant="outlined" className={classes.select}>
+              <InputLabel
+                ref={ref => {
+                  this.InputLabelRef = ref;
+                }}
+                htmlFor="_deck"
+              >
+                Deck
+              </InputLabel>
+              <Select
+                value={selectedDeck}
+                onChange={this.handleChange}
+                input={
+                  <OutlinedInput labelWidth={35} name="_deck" id="_deck" />
+                }
+              >
+                {decks.map(deck => (
+                  <MenuItem key={deck._id} value={deck._id}>
+                    {deck.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              onChange={this.handleSearch}
+              value={searchQuery}
+              variant="outlined"
+              type="text"
+              label="Search"
+              name="search"
+              className={classes.grow}
+            />
+          </Grid>
         )}
-        <List>
+        <List className={classes.list}>
           {cards.map(card => (
             <SingleItem
               key={card._id}
@@ -115,4 +161,4 @@ class CardBrowser extends Component {
   }
 }
 
-export default CardBrowser;
+export default withStyles(styles)(CardBrowser);
