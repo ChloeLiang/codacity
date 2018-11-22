@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import CodeBlock from './codeBlock';
 import { getCardsInDeck, saveCard, deleteCard } from '../services/cardService';
 
 const styles = theme => ({
@@ -195,11 +196,15 @@ class Card extends Component {
               </Button>
             </Grid>
             <Grid container direction="column" className={classes.grow}>
-              <ReactMarkdown source={cards[index].front} />
+              <ReactMarkdown
+                source={cards[index].front}
+                renderers={{ code: CodeBlock }}
+              />
               {isAnswered && (
                 <ReactMarkdown
                   className={classes.back}
                   source={cards[index].back}
+                  renderers={{ code: CodeBlock }}
                 />
               )}
             </Grid>
