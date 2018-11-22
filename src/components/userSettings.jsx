@@ -37,7 +37,7 @@ class UserSettings extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, display } = this.props;
     const { open } = this.state;
 
     return (
@@ -50,6 +50,7 @@ class UserSettings extends Component {
           aria-haspopup="true"
           onClick={this.handleToggle}
           color="inherit"
+          className={display}
         >
           <AccountCircle />
         </IconButton>
