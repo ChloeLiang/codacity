@@ -14,6 +14,12 @@ const styles = () => ({
     color: 'black',
     textDecoration: 'none',
   },
+  text: {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    maxWidth: '700px',
+  },
 });
 
 class SingleItem extends Component {
@@ -26,10 +32,12 @@ class SingleItem extends Component {
         <ListItem button>
           {count > 0 && (
             <Badge color="primary" badgeContent={count}>
-              <ListItemText primary={text} />
+              <ListItemText primary={text} className={classes.text} />
             </Badge>
           )}
-          {count <= 0 && <ListItemText primary={text} />}
+          {count <= 0 && (
+            <ListItemText primary={text} className={classes.text} />
+          )}
           <ListItemSecondaryAction>
             <IconButton aria-label="Edit">
               <EditIcon onClick={e => onEdit(e, id)} />

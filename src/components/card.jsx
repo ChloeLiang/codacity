@@ -58,7 +58,7 @@ class Card extends Component {
     this.setState({ isAnswered: true });
   };
 
-  getUpdatedCard = (card, quality) => {
+  getParams = (card, quality) => {
     // The number of times a user sees a flashcard.
     let repetition = card.repetition;
 
@@ -90,8 +90,17 @@ class Card extends Component {
       interval = Math.round(interval * easiness);
     }
 
+    return {
+      repetition,
+      easiness,
+      interval,
+    };
+  };
+
+  getUpdatedCard = (card, quality) => {
+    const { repetition, easiness, interval } = this.getParams(card, quality);
+
     console.log('interval:', interval);
-    console.log('now', moment().format());
     const nextPracticeDate = moment()
       .add(interval, 'day')
       .format();
