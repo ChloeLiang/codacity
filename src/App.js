@@ -28,6 +28,14 @@ const styles = theme => ({
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
     overflow: 'auto',
+    [theme.breakpoints.up('md')]: {
+      width: '80%',
+      margin: '0 auto',
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: '70%',
+      margin: '0 auto',
+    },
   },
 });
 
