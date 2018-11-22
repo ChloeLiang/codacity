@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -15,6 +15,7 @@ import Decks from './components/decks';
 import CardForm from './components/cardForm';
 import Card from './components/card';
 import CardBrowser from './components/cardBrowser';
+import ProtectedRoute from './components/protectedRoute';
 import auth from './services/userService';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -67,10 +68,11 @@ class App extends Component {
               <Route path="/login" component={LoginForm} />
               <Route path="/register" component={RegisterFrom} />
               <Route path="/logout" component={Logout} />
-              <Route path="/cards/:id" component={CardForm} />
-              <Route path="/cards" component={CardBrowser} />
-              <Route path="/decks/:id/cards" component={Card} />
-              <Route path="/decks" component={Decks} />} />
+              <ProtectedRoute path="/cards/:id" component={CardForm} />
+              <ProtectedRoute path="/cards" component={CardBrowser} />
+              <ProtectedRoute path="/decks/:id/cards" component={Card} />
+              <ProtectedRoute path="/decks" component={Decks} />} />
+              <Redirect from="/" exact to="/decks" />
             </Switch>
           </div>
         </Grid>

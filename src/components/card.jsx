@@ -36,6 +36,9 @@ const styles = theme => ({
   link: {
     textDecoration: 'none',
   },
+  leftSpace: {
+    marginLeft: theme.spacing.unit,
+  },
 });
 
 class Card extends Component {
@@ -187,6 +190,7 @@ class Card extends Component {
                 onClick={this.handleDelete}
                 variant="outlined"
                 color="secondary"
+                className={classes.leftSpace}
               >
                 Delete
               </Button>
