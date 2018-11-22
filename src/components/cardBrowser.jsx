@@ -18,6 +18,11 @@ const styles = theme => ({
   grow: {
     flexGrow: 1,
     marginLeft: theme.spacing.unit * 2,
+    [theme.breakpoints.down('sm')]: {
+      flex: '1 0 auto',
+      margin: '1em 0',
+      width: '100%',
+    },
   },
 });
 

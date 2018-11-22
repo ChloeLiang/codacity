@@ -109,6 +109,7 @@ const styles = theme => ({
     backgroundColor: '#7F00FF',
     borderRadius: '0px',
     width: '100%',
+    minHeight: '',
   },
   link: {
     textDecoration: 'none',
