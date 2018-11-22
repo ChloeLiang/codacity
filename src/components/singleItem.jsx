@@ -63,9 +63,11 @@ class SingleItem extends Component {
             <IconButton aria-label="Edit" className={classes.edit}>
               <EditIcon onClick={e => onEdit(e, id)} />
             </IconButton>
-            <IconButton aria-label="Delete" className={classes.delete}>
-              <DeleteIcon onClick={e => onDelete(e, id)} />
-            </IconButton>
+            {onDelete && (
+              <IconButton aria-label="Delete" className={classes.delete}>
+                <DeleteIcon onClick={e => onDelete(e, id)} />
+              </IconButton>
+            )}
           </ListItemSecondaryAction>
         </ListItem>
       </NavLink>

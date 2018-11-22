@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import Joi from 'joi-browser';
 import { toast } from 'react-toastify';
 import moment from 'moment';
@@ -7,6 +8,8 @@ import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 
 import Form from './form';
 import UpdateDeckForm from './updateDeckForm';
@@ -27,6 +30,15 @@ const styles = theme => ({
   link: {
     color: 'black',
     textDecoration: 'none',
+  },
+  addButton: {
+    position: 'absolute',
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2,
+    display: 'none',
+    [theme.breakpoints.down('xs')]: {
+      display: 'inline-block',
+    },
   },
 });
 
@@ -113,7 +125,7 @@ class Decks extends Form {
     this.setState({ decks });
   };
 
-  renderItem = d => {
+  renderItem = (d, index) => {
     const { isEditing } = this.state;
     const { deck, count } = d;
 
@@ -136,7 +148,7 @@ class Decks extends Form {
         text={deck.name}
         count={count}
         onEdit={this.handleEdit}
-        onDelete={this.handleDelete}
+        onDelete={index === 0 ? null : this.handleDelete}
       />
     );
   };
@@ -171,7 +183,17 @@ class Decks extends Form {
             })}
           </Grid>
         </form>
-        <List>{decks.map(d => this.renderItem(d))}</List>
+        <List>{decks.map((d, index) => this.renderItem(d, index))}</List>
+        <NavLink to="/cards/new">
+          <Button
+            variant="fab"
+            color="primary"
+            aria-label="Add"
+            className={classes.addButton}
+          >
+            <AddIcon />
+          </Button>
+        </NavLink>
       </React.Fragment>
     );
   }
