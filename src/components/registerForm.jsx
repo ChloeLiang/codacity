@@ -11,8 +11,14 @@ import auth from '../services/userService';
 
 const styles = theme => ({
   root: {
-    maxWidth: '400px',
-    margin: '0 auto',
+    maxWidth: '450px',
+    margin: '3em auto',
+  },
+  heading: {
+    marginBottom: 20,
+  },
+  button: {
+    marginTop: 10,
   },
   textField: {
     marginBottom: theme.spacing.unit * 2,
@@ -55,7 +61,9 @@ class RegisterForm extends Form {
 
     return (
       <div className={classes.root}>
-        <Typography variant="h4">Register</Typography>
+        <Typography variant="h4" className={classes.heading}>
+          Register
+        </Typography>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput('email', 'Email', 'text', {
             className: classes.textField,
@@ -67,6 +75,7 @@ class RegisterForm extends Form {
             variant: 'contained',
             color: 'primary',
             type: 'submit',
+            className: classes.button,
           })}
         </form>
       </div>

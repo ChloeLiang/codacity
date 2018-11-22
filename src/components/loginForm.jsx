@@ -10,8 +10,15 @@ import auth from '../services/userService';
 
 const styles = theme => ({
   root: {
-    maxWidth: '400px',
-    margin: '0 auto',
+    maxWidth: '450px',
+    margin: '3em auto',
+  },
+  heading: {
+    marginBottom: 20,
+  },
+  button: {
+    marginTop: 10,
+    // width: '100%',
   },
   textField: {
     marginBottom: theme.spacing.unit * 2,
@@ -59,7 +66,9 @@ class LoginForm extends Form {
 
     return (
       <div className={classes.root}>
-        <Typography variant="h4">Login</Typography>
+        <Typography variant="h4" className={classes.heading}>
+          Login
+        </Typography>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput('email', 'Email', 'text', {
             className: classes.textField,
@@ -71,6 +80,7 @@ class LoginForm extends Form {
             variant: 'contained',
             color: 'primary',
             type: 'submit',
+            className: classes.button,
           })}
         </form>
       </div>
