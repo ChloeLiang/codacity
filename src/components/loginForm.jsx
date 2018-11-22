@@ -18,7 +18,6 @@ const styles = theme => ({
   },
   button: {
     marginTop: 10,
-    // width: '100%',
   },
   textField: {
     marginBottom: theme.spacing.unit * 2,
