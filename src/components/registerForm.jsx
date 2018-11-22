@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import Joi from 'joi-browser';
 
 import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
 import Form from './form';
 import auth from '../services/userService';
@@ -54,7 +55,7 @@ class RegisterForm extends Form {
 
     return (
       <div className={classes.root}>
-        <h1>Register</h1>
+        <Typography variant="h4">Register</Typography>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput('email', 'Email', 'text', {
             className: classes.textField,

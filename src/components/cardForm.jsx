@@ -78,7 +78,6 @@ class CardForm extends Form {
   render() {
     return (
       <div>
-        <h1>Card</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderSelect('_deck', 'Deck', this.state.decks)}
           {this.renderInput('front', 'Front', 'text', {

@@ -21,10 +21,10 @@ const styles = theme => ({
     maxWidth: '700px',
   },
   edit: {
-    color: '#3F5EFB',
+    color: '#7F00FF',
   },
   delete: {
-    color: '#FC466B',
+    color: '#E100FF',
   },
   itemHover: {
     transition: 'all .3s',

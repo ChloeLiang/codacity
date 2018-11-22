@@ -40,6 +40,9 @@ const styles = theme => ({
       display: 'inline-block',
     },
   },
+  list: {
+    padding: '2em 0',
+  },
 });
 
 class Decks extends Form {
@@ -86,8 +89,7 @@ class Decks extends Form {
     this.setState({ decks });
 
     try {
-      const { data } = await deleteDeck(deckId);
-      console.log(data);
+      await deleteDeck(deckId);
     } catch (ex) {
       if (ex.response && ex.response.status === 404) {
         toast.error('This deck has already been deleted.');
@@ -175,7 +177,7 @@ class Decks extends Form {
             {this.renderInput('name', 'Add a new deck', 'text', {
               className: classes.grow,
             })}
-            {this.renderButton('Add Deck', {
+            {this.renderButton('Add', {
               variant: 'contained',
               color: 'primary',
               className: classes.button,
@@ -183,7 +185,9 @@ class Decks extends Form {
             })}
           </Grid>
         </form>
-        <List>{decks.map((d, index) => this.renderItem(d, index))}</List>
+        <List className={classes.list}>
+          {decks.map((d, index) => this.renderItem(d, index))}
+        </List>
         <NavLink to="/cards/new">
           <Button
             variant="fab"

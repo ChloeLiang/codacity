@@ -34,7 +34,11 @@ const styles = theme => ({
     },
   },
   blackout: {
-    backgroundColor: '#880e4f',
+    // backgroundColor: '#880e4f',
+    backgroundColor: '#808e95',
+    '&:hover': {
+      backgroundColor: '#4b636e',
+    },
     borderRadius: '0px',
     flex: '0 0 calc(100% / 3)',
     [theme.breakpoints.up('sm')]: {
@@ -42,7 +46,11 @@ const styles = theme => ({
     },
   },
   hard: {
-    backgroundColor: '#ad1457',
+    // backgroundColor: '#ad1457',
+    backgroundColor: '#dd2c00',
+    '&:hover': {
+      backgroundColor: '#a30000',
+    },
     borderRadius: '0px',
     flex: '0 0 calc(100% / 3)',
     [theme.breakpoints.up('sm')]: {
@@ -50,7 +58,11 @@ const styles = theme => ({
     },
   },
   normal: {
-    backgroundColor: '#d81b60',
+    // backgroundColor: '#d81b60',
+    backgroundColor: '#f9a825',
+    '&:hover': {
+      backgroundColor: '#c17900',
+    },
     borderRadius: '0px',
     flex: '0 0 calc(100% / 3)',
     [theme.breakpoints.up('sm')]: {
@@ -58,7 +70,11 @@ const styles = theme => ({
     },
   },
   good: {
-    backgroundColor: '#e91e63',
+    // backgroundColor: '#e91e63',
+    backgroundColor: '#304ffe',
+    '&:hover': {
+      backgroundColor: '#0026ca',
+    },
     borderRadius: '0px',
     flex: '0 0 calc(100% / 3)',
     [theme.breakpoints.up('sm')]: {
@@ -66,7 +82,11 @@ const styles = theme => ({
     },
   },
   easy: {
-    backgroundColor: '#ec407a',
+    // backgroundColor: '#ec407a',
+    backgroundColor: '#00bcd4',
+    '&:hover': {
+      backgroundColor: '#008ba3',
+    },
     borderRadius: '0px',
     flex: '0 0 calc(100% / 3)',
     [theme.breakpoints.up('sm')]: {
@@ -74,7 +94,11 @@ const styles = theme => ({
     },
   },
   perfect: {
-    backgroundColor: '#f06292',
+    // backgroundColor: '#f06292',
+    backgroundColor: '#32cb00',
+    '&:hover': {
+      backgroundColor: '#009624',
+    },
     borderRadius: '0px',
     flex: '0 0 calc(100% / 3)',
     [theme.breakpoints.up('sm')]: {
