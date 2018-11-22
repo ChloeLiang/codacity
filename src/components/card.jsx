@@ -71,6 +71,7 @@ class Card extends Component {
     let interval = card.interval;
 
     // Quality is how difficult a flashcard is. The scale is from 0 to 5.
+    // 0 is blackout. 5 is perfect.
     easiness = Math.max(
       1.3,
       easiness + 0.1 - (5.0 - quality) * (0.08 + (5.0 - quality) * 0.02)
@@ -148,7 +149,22 @@ class Card extends Component {
     console.log('deleted', data);
   };
 
-  renderButton = () => {};
+  renderButton = (quality, text, style) => {
+    const { cards, index } = this.state;
+
+    return (
+      <Button
+        onClick={() => this.handleSpacedRepetition(quality)}
+        variant="contained"
+        color="primary"
+        className={style}
+      >
+        {this.getParams(cards[index], quality).interval + ' d'}
+        <br />
+        {text}
+      </Button>
+    );
+  };
 
   render() {
     const { classes } = this.props;
@@ -201,54 +217,12 @@ class Card extends Component {
               )}
               {isAnswered && (
                 <React.Fragment>
-                  <Button
-                    onClick={() => this.handleSpacedRepetition(0)}
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                  >
-                    Blackout
-                  </Button>
-                  <Button
-                    onClick={() => this.handleSpacedRepetition(1)}
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                  >
-                    Hard
-                  </Button>
-                  <Button
-                    onClick={() => this.handleSpacedRepetition(2)}
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                  >
-                    Normal
-                  </Button>
-                  <Button
-                    onClick={() => this.handleSpacedRepetition(3)}
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                  >
-                    Good
-                  </Button>
-                  <Button
-                    onClick={() => this.handleSpacedRepetition(4)}
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                  >
-                    Easy
-                  </Button>
-                  <Button
-                    onClick={() => this.handleSpacedRepetition(5)}
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                  >
-                    Perfect
-                  </Button>
+                  {this.renderButton(0, 'Blackout', classes.button)}
+                  {this.renderButton(1, 'Hard', classes.button)}
+                  {this.renderButton(2, 'Normal', classes.button)}
+                  {this.renderButton(3, 'Good', classes.button)}
+                  {this.renderButton(4, 'Easy', classes.button)}
+                  {this.renderButton(5, 'Perfect', classes.button)}
                 </React.Fragment>
               )}
             </Grid>
