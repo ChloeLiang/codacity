@@ -11,6 +11,10 @@ import Button from '@material-ui/core/Button';
 import UserSettings from './userSettings';
 
 const styles = {
+  root: {
+    // background: 'linear-gradient(45deg, #FC466B 30%, #3F5EFB 90%)',
+    background: 'linear-gradient(45deg, #7F00FF 30%, #E100FF 90%)',
+  },
   grow: {
     flexGrow: 1,
   },
@@ -29,7 +33,7 @@ class NavBar extends Component {
     const { classes, user } = this.props;
 
     return (
-      <AppBar position="static">
+      <AppBar position="static" className={classes.root}>
         <Toolbar>
           <Typography variant="h6" color="inherit" className={classes.grow}>
             <Link className={classes.link} to="/">

@@ -24,7 +24,6 @@ const styles = theme => ({
     bottom: '0',
     left: '0',
     padding: '1em',
-    background: '#FAFAFA',
   },
   button: {
     flex: '0 0 calc(100% / 3)',

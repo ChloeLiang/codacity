@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
-import { withStyles } from '@material-ui/core/styles';
+import {
+  MuiThemeProvider,
+  createMuiTheme,
+  withStyles,
+} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 
@@ -20,10 +24,23 @@ import auth from './services/userService';
 
 import 'react-toastify/dist/ReactToastify.css';
 
+const theme = createMuiTheme({
+  palette: {
+    // primary: { main: '#3F5EFB' },
+    // secondary: { main: '#FC466B' },
+    primary: { main: '#7F00FF' },
+    secondary: { main: '#E100FF' },
+  },
+  typography: {
+    fontFamily: "'Fira Mono', 'monospace'",
+  },
+});
+
 const styles = theme => ({
   root: {
     height: '100vh',
     flexWrap: 'nowrap',
+    background: 'linear-gradient(to bottom, #F2F2F2, #fdeff9)',
   },
   container: {
     flexGrow: 1,
@@ -56,26 +73,28 @@ class App extends Component {
       <React.Fragment>
         <ToastContainer />
         <CssBaseline />
-        <Grid
-          container
-          direction="column"
-          alignItems="stretch"
-          className={classes.root}
-        >
-          <NavBar user={user} />
-          <div className={classes.container}>
-            <Switch>
-              <Route path="/login" component={LoginForm} />
-              <Route path="/register" component={RegisterFrom} />
-              <Route path="/logout" component={Logout} />
-              <ProtectedRoute path="/cards/:id" component={CardForm} />
-              <ProtectedRoute path="/cards" component={CardBrowser} />
-              <ProtectedRoute path="/decks/:id/cards" component={Card} />
-              <ProtectedRoute path="/decks" component={Decks} />} />
-              <Redirect from="/" exact to="/decks" />
-            </Switch>
-          </div>
-        </Grid>
+        <MuiThemeProvider theme={theme}>
+          <Grid
+            container
+            direction="column"
+            alignItems="stretch"
+            className={classes.root}
+          >
+            <NavBar user={user} />
+            <div className={classes.container}>
+              <Switch>
+                <Route path="/login" component={LoginForm} />
+                <Route path="/register" component={RegisterFrom} />
+                <Route path="/logout" component={Logout} />
+                <ProtectedRoute path="/cards/:id" component={CardForm} />
+                <ProtectedRoute path="/cards" component={CardBrowser} />
+                <ProtectedRoute path="/decks/:id/cards" component={Card} />
+                <ProtectedRoute path="/decks" component={Decks} />} />
+                <Redirect from="/" exact to="/decks" />
+              </Switch>
+            </div>
+          </Grid>
+        </MuiThemeProvider>
       </React.Fragment>
     );
   }

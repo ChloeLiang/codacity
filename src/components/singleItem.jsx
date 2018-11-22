@@ -9,7 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Badge from '@material-ui/core/Badge';
 
-const styles = () => ({
+const styles = theme => ({
   link: {
     color: 'black',
     textDecoration: 'none',
@@ -20,6 +20,18 @@ const styles = () => ({
     textOverflow: 'ellipsis',
     maxWidth: '700px',
   },
+  edit: {
+    color: '#3F5EFB',
+  },
+  delete: {
+    color: '#FC466B',
+  },
+  itemHover: {
+    transition: 'all .3s',
+    '&:hover': {
+      backgroundColor: '#D8DEEE',
+    },
+  },
 });
 
 class SingleItem extends Component {
@@ -29,9 +41,18 @@ class SingleItem extends Component {
 
     return (
       <NavLink className={classes.link} to={url}>
-        <ListItem button>
+        <ListItem
+          button
+          className={classes.itemHover}
+          disableRipple
+          disableTouchRipple
+        >
           {count > 0 && (
-            <Badge color="primary" badgeContent={count}>
+            <Badge
+              color="primary"
+              badgeContent={count}
+              className={classes.badge}
+            >
               <ListItemText primary={text} className={classes.text} />
             </Badge>
           )}
@@ -39,10 +60,10 @@ class SingleItem extends Component {
             <ListItemText primary={text} className={classes.text} />
           )}
           <ListItemSecondaryAction>
-            <IconButton aria-label="Edit">
+            <IconButton aria-label="Edit" className={classes.edit}>
               <EditIcon onClick={e => onEdit(e, id)} />
             </IconButton>
-            <IconButton aria-label="Delete">
+            <IconButton aria-label="Delete" className={classes.delete}>
               <DeleteIcon onClick={e => onDelete(e, id)} />
             </IconButton>
           </ListItemSecondaryAction>
