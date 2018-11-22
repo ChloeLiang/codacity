@@ -39,37 +39,27 @@ class NavBar extends Component {
 
           {!user && (
             <React.Fragment>
-              <Button color="inherit">
-                <NavLink className={classes.link} to="/login">
-                  Login
-                </NavLink>
-              </Button>
+              <NavLink className={classes.link} to="/login">
+                <Button color="inherit">Login</Button>
+              </NavLink>
 
-              <Button color="inherit">
-                <NavLink className={classes.link} to="/register">
-                  Register
-                </NavLink>
-              </Button>
+              <NavLink className={classes.link} to="/register">
+                <Button color="inherit">Register</Button>
+              </NavLink>
             </React.Fragment>
           )}
 
           {user && (
             <React.Fragment>
-              <Button color="inherit">
-                <NavLink className={classes.link} to="/decks">
-                  Decks
-                </NavLink>
-              </Button>
-              <Button color="inherit">
-                <NavLink className={classes.link} to="/cards">
-                  Browse Cards
-                </NavLink>
-              </Button>
-              <Button color="inherit">
-                <NavLink className={classes.link} to="/cards/new">
-                  Add Card
-                </NavLink>
-              </Button>
+              <NavLink className={classes.link} to="/decks">
+                <Button color="inherit">Decks</Button>
+              </NavLink>
+              <NavLink className={classes.link} to="/cards">
+                <Button color="inherit">Browse Cards</Button>
+              </NavLink>
+              <NavLink className={classes.link} to="/cards/new">
+                <Button color="inherit">Add Card</Button>
+              </NavLink>
               <UserSettings />
             </React.Fragment>
           )}
