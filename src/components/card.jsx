@@ -23,15 +23,68 @@ const styles = theme => ({
   buttons: {
     position: 'fixed',
     bottom: '0',
-    left: '0',
-    padding: '1em',
+    [theme.breakpoints.down('sm')]: {
+      left: 0,
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '80%',
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: '70%',
+    },
   },
-  button: {
+  blackout: {
+    backgroundColor: '#880e4f',
+    borderRadius: '0px',
     flex: '0 0 calc(100% / 3)',
     [theme.breakpoints.up('sm')]: {
-      flex: '0 0 auto',
-      minWidth: '102px',
+      flex: '0 0 calc(100% / 6)',
     },
+  },
+  hard: {
+    backgroundColor: '#ad1457',
+    borderRadius: '0px',
+    flex: '0 0 calc(100% / 3)',
+    [theme.breakpoints.up('sm')]: {
+      flex: '0 0 calc(100% / 6)',
+    },
+  },
+  normal: {
+    backgroundColor: '#d81b60',
+    borderRadius: '0px',
+    flex: '0 0 calc(100% / 3)',
+    [theme.breakpoints.up('sm')]: {
+      flex: '0 0 calc(100% / 6)',
+    },
+  },
+  good: {
+    backgroundColor: '#e91e63',
+    borderRadius: '0px',
+    flex: '0 0 calc(100% / 3)',
+    [theme.breakpoints.up('sm')]: {
+      flex: '0 0 calc(100% / 6)',
+    },
+  },
+  easy: {
+    backgroundColor: '#ec407a',
+    borderRadius: '0px',
+    flex: '0 0 calc(100% / 3)',
+    [theme.breakpoints.up('sm')]: {
+      flex: '0 0 calc(100% / 6)',
+    },
+  },
+  perfect: {
+    backgroundColor: '#f06292',
+    borderRadius: '0px',
+    flex: '0 0 calc(100% / 3)',
+    [theme.breakpoints.up('sm')]: {
+      flex: '0 0 calc(100% / 6)',
+    },
+  },
+  answer: {
+    backgroundColor: '#7F00FF',
+    borderRadius: '0px',
+    width: '100%',
   },
   link: {
     textDecoration: 'none',
@@ -182,13 +235,13 @@ class Card extends Component {
                 to={`/cards/${cards[index]._id}`}
                 className={classes.link}
               >
-                <Button variant="outlined" color="primary">
+                <Button variant="contained" color="primary">
                   Edit
                 </Button>
               </NavLink>
               <Button
                 onClick={this.handleDelete}
-                variant="outlined"
+                variant="contained"
                 color="secondary"
                 className={classes.leftSpace}
               >
@@ -208,29 +261,25 @@ class Card extends Component {
                 />
               )}
             </Grid>
-            <Grid
-              container
-              justify="center"
-              spacing={16}
-              className={classes.buttons}
-            >
+            <Grid container justify="center" className={classes.buttons}>
               {!isAnswered && (
                 <Button
                   onClick={this.handleAnswer}
                   variant="contained"
                   color="primary"
+                  className={classes.answer}
                 >
                   Show Answer
                 </Button>
               )}
               {isAnswered && (
                 <React.Fragment>
-                  {this.renderButton(0, 'Blackout', classes.button)}
-                  {this.renderButton(1, 'Hard', classes.button)}
-                  {this.renderButton(2, 'Normal', classes.button)}
-                  {this.renderButton(3, 'Good', classes.button)}
-                  {this.renderButton(4, 'Easy', classes.button)}
-                  {this.renderButton(5, 'Perfect', classes.button)}
+                  {this.renderButton(0, 'Blackout', classes.blackout)}
+                  {this.renderButton(1, 'Hard', classes.hard)}
+                  {this.renderButton(2, 'Normal', classes.normal)}
+                  {this.renderButton(3, 'Good', classes.good)}
+                  {this.renderButton(4, 'Easy', classes.easy)}
+                  {this.renderButton(5, 'Perfect', classes.perfect)}
                 </React.Fragment>
               )}
             </Grid>

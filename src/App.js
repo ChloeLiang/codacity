@@ -44,8 +44,13 @@ const styles = theme => ({
   },
   container: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
     overflow: 'auto',
+    paddingTop: theme.spacing.unit * 3,
+    paddingBottom: theme.spacing.unit * 3,
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: theme.spacing.unit * 3,
+      paddingRight: theme.spacing.unit * 3,
+    },
     [theme.breakpoints.up('md')]: {
       width: '80%',
       margin: '0 auto',

@@ -8,6 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
+import TemporaryDrawer from './temporaryDrawer';
 import UserSettings from './userSettings';
 
 const styles = {
@@ -29,12 +30,27 @@ const styles = {
 };
 
 class NavBar extends Component {
+  state = {
+    open: false,
+  };
+
+  toggleDrawer = open => () => {
+    this.setState({
+      open,
+    });
+  };
+
   render() {
     const { classes, user } = this.props;
 
     return (
       <AppBar position="static" className={classes.root}>
         <Toolbar>
+          <Button onClick={this.toggleDrawer(true)}>Open</Button>
+          <TemporaryDrawer
+            open={this.state.open}
+            onToggle={this.toggleDrawer}
+          />
           <Typography variant="h6" color="inherit" className={classes.grow}>
             <Link className={classes.link} to="/">
               CodeNinja
