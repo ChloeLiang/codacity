@@ -82,13 +82,11 @@ class CardForm extends Form {
           {this.renderSelect('_deck', 'Deck', this.state.decks)}
           {this.renderInput('front', 'Front', 'text', {
             multiline: true,
-            rows: '4',
             variant: 'outlined',
             margin: 'normal',
           })}
           {this.renderInput('back', 'Back', 'text', {
             multiline: true,
-            rows: '4',
             variant: 'outlined',
             margin: 'normal',
           })}
