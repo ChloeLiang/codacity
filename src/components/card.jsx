@@ -12,8 +12,7 @@ import { getCardsInDeck, saveCard, deleteCard } from '../services/cardService';
 const styles = theme => ({
   grow: {
     flexGrow: 1,
-    margin: theme.spacing.unit,
-    padding: theme.spacing.unit,
+    padding: '1em 0 5em 0',
   },
   back: {
     borderTop: '1px solid rgba(124, 124, 124, .5)',
@@ -21,11 +20,18 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2,
   },
   buttons: {
-    marginTop: theme.spacing.unit * 2,
-    marginLeft: theme.spacing.unit,
+    position: 'fixed',
+    bottom: '0',
+    left: '0',
+    padding: '1em',
+    background: '#FAFAFA',
   },
   button: {
-    marginLeft: theme.spacing.unit,
+    flex: '0 0 calc(100% / 3)',
+    [theme.breakpoints.up('sm')]: {
+      flex: '0 0 auto',
+      minWidth: '102px',
+    },
   },
   link: {
     textDecoration: 'none',
@@ -156,7 +162,6 @@ class Card extends Component {
                 onClick={this.handleDelete}
                 variant="outlined"
                 color="secondary"
-                className={classes.button}
               >
                 Delete
               </Button>
@@ -191,6 +196,7 @@ class Card extends Component {
                     onClick={() => this.handleSpacedRepetition(0)}
                     variant="contained"
                     color="primary"
+                    className={classes.button}
                   >
                     Blackout
                   </Button>
@@ -198,6 +204,7 @@ class Card extends Component {
                     onClick={() => this.handleSpacedRepetition(1)}
                     variant="contained"
                     color="primary"
+                    className={classes.button}
                   >
                     Hard
                   </Button>
@@ -205,6 +212,7 @@ class Card extends Component {
                     onClick={() => this.handleSpacedRepetition(2)}
                     variant="contained"
                     color="primary"
+                    className={classes.button}
                   >
                     Normal
                   </Button>
@@ -212,6 +220,7 @@ class Card extends Component {
                     onClick={() => this.handleSpacedRepetition(3)}
                     variant="contained"
                     color="primary"
+                    className={classes.button}
                   >
                     Good
                   </Button>
@@ -219,6 +228,7 @@ class Card extends Component {
                     onClick={() => this.handleSpacedRepetition(4)}
                     variant="contained"
                     color="primary"
+                    className={classes.button}
                   >
                     Easy
                   </Button>
@@ -226,6 +236,7 @@ class Card extends Component {
                     onClick={() => this.handleSpacedRepetition(5)}
                     variant="contained"
                     color="primary"
+                    className={classes.button}
                   >
                     Perfect
                   </Button>

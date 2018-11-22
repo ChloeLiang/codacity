@@ -110,7 +110,7 @@ class CardBrowser extends Component {
       <React.Fragment>
         {decks.length > 0 && (
           <Grid container>
-            <FormControl variant="outlined" className={classes.select}>
+            <FormControl variant="outlined">
               <InputLabel
                 ref={ref => {
                   this.InputLabelRef = ref;
