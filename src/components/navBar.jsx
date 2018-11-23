@@ -75,7 +75,7 @@ class NavBar extends Component {
           />
           <Typography variant="h6" color="inherit" className={classes.grow}>
             <Link className={classes.link} to="/">
-              CodeNinja
+              FlipCode
             </Link>
           </Typography>
 
