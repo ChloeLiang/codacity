@@ -14,6 +14,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Form from './form';
 import UpdateDeckForm from './updateDeckForm';
 import SingleItem from './singleItem';
+import Spinner from './spinner';
 import { getDecks, saveDeck, deleteDeck } from '../services/deckService';
 import { getCards } from '../services/cardService';
 import { getCurrentUser } from '../services/userService';
@@ -52,6 +53,7 @@ class Decks extends Form {
     cards: [],
     errors: {},
     isEditing: null,
+    isLoading: true,
   };
 
   schema = {
@@ -65,7 +67,7 @@ class Decks extends Form {
   async componentDidMount() {
     const { data: decks } = await getDecks();
     const { data: cards } = await getCards();
-    this.setState({ decks, cards });
+    this.setState({ decks, cards, isLoading: false });
   }
 
   mapToModel = deck => {
@@ -168,6 +170,7 @@ class Decks extends Form {
 
   render() {
     const { classes } = this.props;
+    const { isLoading } = this.state;
     const decks = this.getDecksAndCounts();
 
     return (
@@ -186,6 +189,7 @@ class Decks extends Form {
           </Grid>
         </form>
         <List className={classes.list}>
+          <Spinner open={isLoading} />
           {decks.map((d, index) => this.renderItem(d, index))}
         </List>
         <NavLink to="/cards/new">

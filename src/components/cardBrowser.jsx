@@ -11,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import SingleItem from './singleItem';
+import Spinner from './spinner';
 import { getCardsInDeck, deleteCard } from '../services/cardService';
 import { getDecks } from '../services/deckService';
 
@@ -24,6 +25,9 @@ const styles = theme => ({
       width: '100%',
     },
   },
+  list: {
+    padding: '1em 0',
+  },
 });
 
 class CardBrowser extends Component {
@@ -32,6 +36,7 @@ class CardBrowser extends Component {
     decks: [],
     selectedDeck: '',
     searchQuery: '',
+    isLoading: true,
   };
 
   schema = {
@@ -52,7 +57,7 @@ class CardBrowser extends Component {
       cards = data;
     }
 
-    this.setState({ decks, cards, selectedDeck });
+    this.setState({ decks, cards, selectedDeck, isLoading: false });
   }
 
   handleChange = async e => {
@@ -107,7 +112,7 @@ class CardBrowser extends Component {
   };
 
   render() {
-    const { decks, selectedDeck, searchQuery } = this.state;
+    const { decks, selectedDeck, searchQuery, isLoading } = this.state;
     const { classes } = this.props;
     const cards = this.getFilteredCards();
 
@@ -150,6 +155,7 @@ class CardBrowser extends Component {
           </Grid>
         )}
         <List className={classes.list}>
+          <Spinner open={isLoading} />
           {cards.map(card => (
             <SingleItem
               key={card._id}

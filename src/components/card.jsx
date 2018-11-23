@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import CodeBlock from './codeBlock';
+import Spinner from './spinner';
 import { getCardsInDeck, saveCard, deleteCard } from '../services/cardService';
 
 const styles = theme => ({
@@ -253,6 +254,7 @@ class Card extends Component {
 
     return (
       <React.Fragment>
+        <Spinner open={isLoading} />
         {!isLoading && index <= cards.length - 1 && (
           <React.Fragment>
             <Grid container>
