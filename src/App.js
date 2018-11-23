@@ -94,8 +94,9 @@ class App extends Component {
                 <ProtectedRoute path="/cards/:id" component={CardForm} />
                 <ProtectedRoute path="/cards" component={CardBrowser} />
                 <ProtectedRoute path="/decks/:id/cards" component={Card} />
-                <Route path="/decks" component={Decks} />} />
+                <ProtectedRoute path="/decks" component={Decks} />} />
                 <Redirect from="/" exact to="/decks" />
+                <Redirect from="*" to="/decks" />
               </Switch>
             </div>
           </Grid>
