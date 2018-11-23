@@ -18,17 +18,20 @@ const styles = theme => ({
   text: {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    textOverflow: 'ellipsis',
+    marginRight: '5em',
+    [theme.breakpoints.down('xs')]: {
+      marginRight: '1em',
+    },
   },
   edit: {
     color: '#7F00FF',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       display: 'none',
     },
   },
   delete: {
     color: '#E100FF',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       display: 'none',
     },
   },
@@ -40,7 +43,7 @@ const styles = theme => ({
   },
   menu: {
     display: 'none',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       display: 'inline-block',
       padding: 0,
     },
