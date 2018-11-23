@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Joi from 'joi-browser';
+import { Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -49,10 +50,8 @@ class LoginForm extends Form {
     try {
       const { data } = this.state;
       await auth.login(data.email, data.password);
-
-      // In App.js, componentDidMount is only executed once.
-      // Reload the whole application to save the token after user logged in.
-      window.location = '/decks';
+      const { state } = this.props.location;
+      window.location = state ? state.from.pathname : '/';
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         toast.error(ex.response.data);
@@ -62,6 +61,9 @@ class LoginForm extends Form {
 
   render() {
     const { classes } = this.props;
+    if (auth.getCurrentUser()) {
+      return <Redirect to="/" />;
+    }
 
     return (
       <div className={classes.root}>
