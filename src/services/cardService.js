@@ -1,7 +1,6 @@
 import http from './httpService';
-import { apiUrl } from '../config.json';
 
-const apiEndpoint = apiUrl + '/cards';
+const apiEndpoint = '/cards';
 
 export function saveCard(card) {
   if (card._id) {
@@ -10,7 +9,7 @@ export function saveCard(card) {
     return http.put(`${apiEndpoint}/${card._id}`, body);
   }
 
-  return http.post(`${apiUrl}/decks/${card._deck}/cards`, card);
+  return http.post(`/decks/${card._deck}/cards`, card);
 }
 
 export function getCards() {
@@ -18,7 +17,7 @@ export function getCards() {
 }
 
 export function getCardsInDeck(deckId) {
-  return http.get(`${apiUrl}/decks/${deckId}/cards`);
+  return http.get(`/decks/${deckId}/cards`);
 }
 
 export function getCard(cardId) {

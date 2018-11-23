@@ -1,7 +1,6 @@
 import http from './httpService';
-import { apiUrl } from '../config.json';
 
-const apiEndpoint = apiUrl + '/decks';
+const apiEndpoint = '/decks';
 
 function deckUrl(id) {
   return `${apiEndpoint}/${id}`;
