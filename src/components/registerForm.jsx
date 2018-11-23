@@ -48,7 +48,7 @@ class RegisterForm extends Form {
       // response.headers = { x-auth: xx }
       const response = await auth.register(this.state.data);
       auth.loginWithJwt(response.headers['x-auth']);
-      window.location = '/decks';
+      window.location.href = '/decks';
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         toast.error(ex.response.data);
