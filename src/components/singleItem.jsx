@@ -48,6 +48,12 @@ const styles = theme => ({
       padding: 0,
     },
   },
+  badge: {
+    left: '-5em',
+    [theme.breakpoints.down('xs')]: {
+      left: '-1em',
+    },
+  },
 });
 
 class SingleItem extends Component {
@@ -76,12 +82,8 @@ class SingleItem extends Component {
           disableTouchRipple
         >
           {count > 0 && (
-            <Badge
-              color="primary"
-              badgeContent={count}
-              className={classes.badge}
-            >
-              <ListItemText primary={text} className={classes.text} />
+            <Badge color="primary" badgeContent={count}>
+              <ListItemText primary={text} />
             </Badge>
           )}
           {count <= 0 && (

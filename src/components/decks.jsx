@@ -58,7 +58,9 @@ class Decks extends Form {
 
   schema = {
     _id: Joi.string(),
-    name: Joi.string().label('Name'),
+    name: Joi.string()
+      .max(50)
+      .label('Name'),
     _creator: Joi.string()
       .required()
       .label('Creator'),
