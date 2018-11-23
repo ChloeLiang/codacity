@@ -50,7 +50,7 @@ class LoginForm extends Form {
     try {
       const { data } = this.state;
       await auth.login(data.email, data.password);
-      window.location.href = '/decks';
+      window.location = '/';
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         toast.error(ex.response.data);
