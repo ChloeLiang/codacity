@@ -1,6 +1,6 @@
 # Codacity
 
-[Codacity](https://codacity.netlify.com) is a single page flashcard application that supports markdown notation and syntax highlighting. It's built wuth React on front
+[Codacity](https://codacity.netlify.com) is a single page flashcard application that supports markdown notation and syntax highlighting. It's built with React on front
 end and Node.js on back end. The React app sends HTTP request to the back-end API
 service. The back-end sends JSON object back.
 
