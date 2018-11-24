@@ -1,44 +1,150 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Codacity
 
-## Available Scripts
+[Codacity](https://codacity.netlify.com) is a single page flashcard application that supports markdown notation and syntax highlighting. It's built wuth React on front
+end and Node.js on back end. The React app sends HTTP request to the back-end API
+service. The back-end sends JSON object back.
 
-In the project directory, you can run:
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and hosted on [Netlify](https://www.netlify.com/).
 
-### `npm start`
+## Getting Started
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+These instructions will get you a copy of the project up and running on your local
+machine for development and testing purposes. See deployment for notes on how to
+deploy the project on a live system.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### Prerequisites
 
-### `npm test`
+Download the back end API for this project [here](https://github.com/ChloeLiang/codacity-api).
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Install [Node.js](https://nodejs.org/en/) (version 8.10.0 or later).
 
-### `npm run build`
+Install MongoDB using Homebrew.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+# Install Homebrew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+# Install MongoDB
+brew install mongodb
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Create a directory for MongoDB to store its data and make sure this directory has the right permission.
 
-### `npm run eject`
+```bash
+sudo mkdir -p /data/db
+sudo chown -R `id -un` /data/db
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Installing
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Start MongoDB:
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+mongod
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Start the back end server at localhost:3900.
 
-## Learn More
+```bash
+cd codacity-api
+npm start
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Run the React app in the development mode.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+cd codacity
+npm start
+```
+
+## Deployment
+
+These instructions will get the back-end API up and running on Heroku and front-end
+React app up and running on Netlify.
+
+### Host Database on mLab
+
+Create a new database.
+
+- Sing up an [mLab account](https://mlab.com/) and sign in to your dashboard.
+- Click **+ Create new** to create a new database.
+- Choose any Cloud Provider and select the free **SANDBOX** for Plan Type.
+- Choose a preferred region.
+- Give your database a name. For example: codacity.
+- Continue and submit order.
+
+Create a user for this database.
+
+- Inside the database you just created, click **Users** tab.
+- Click **Add database user** and specify database username and password.
+
+At the database page, there's a MongoDB URI available on the top. We'll set Heroku's
+MONGODB_URI environment variable to this value later. It looks like:
+
+```bash
+mongodb://<dbuser>:<dbpassword>@ds123456.mlab.com:33212/codacity
+```
+
+### Setup Heroku
+
+Make sure you have an account with [Heroku](https://www.heroku.com/) and have installed
+the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli). Choose a region.
+
+Login with Heroku credentials:
+
+```bash
+$ heroku login
+Enter your Heroku credentials.
+Email: adam@example.com
+Password (typing will be hidden):
+Authentication successful.
+```
+
+### Deploy Back End
+
+Create a Heroku app via the command line:
+
+```bash
+cd codacity-api
+heroku create
+```
+
+Set the MONGODB_URI variable to your mLab database URI. Replace `<dbuser>` and
+`<dbpassword>` with your database's user and password. For exmaple:
+
+```bash
+heroku config:set MONGODB_URI=mongodb://<dbuser>:<dbpassword>@ds123456.mlab.com:33212/codacity
+```
+
+Add, and commit all your data to git. Then push it to Heroku:
+
+```bash
+git push heroku master
+```
+
+### Deploy Front End
+
+Create another Heroku app for front end.
+
+```bash
+cd codacity
+heroku create
+```
+
+Add, and commit all your data to git. Then push it to Heroku:
+
+```bash
+git push heroku master
+```
+
+Open your app in browser:
+
+```bash
+heroku open
+```
+
+## Contributing
+
+When contributing to this repository, please first discuss the change you wish to
+make via issue, email, or any other method with the owners of this repository
+before making a change.
