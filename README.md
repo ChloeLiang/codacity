@@ -37,10 +37,19 @@ sudo chown -R `id -un` /data/db
 
 ### Installing
 
+#### Back End
+
 Start MongoDB:
 
 ```bash
 mongod
+```
+
+Install all the dependencies:
+
+```bash
+cd codacity-api
+npm install
 ```
 
 Start the back end server at localhost:3900.
@@ -48,6 +57,15 @@ Start the back end server at localhost:3900.
 ```bash
 cd codacity-api
 npm start
+```
+
+#### Front End
+
+Install all the dependencies:
+
+```bash
+cd codacity
+npm install
 ```
 
 Run the React app in the development mode.
