@@ -129,11 +129,16 @@ class Card extends Component {
   };
 
   async componentDidMount() {
-    const deckId = this.props.match.params.id;
-    let { data: cards } = await getCardsInDeck(deckId);
-    cards = cards.filter(card => moment().isSameOrAfter(card.next));
-    console.log(cards);
-    this.setState({ cards, isLoading: false });
+    try {
+      const deckId = this.props.match.params.id;
+      let { data: cards } = await getCardsInDeck(deckId);
+      cards = cards.filter(card => moment().isSameOrAfter(card.next));
+      this.setState({ cards, isLoading: false });
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) {
+        this.props.history.replace('/not-found');
+      }
+    }
   }
 
   handleAnswer = () => {
@@ -183,11 +188,9 @@ class Card extends Component {
   getUpdatedCard = (card, quality) => {
     const { repetition, easiness, interval } = this.getParams(card, quality);
 
-    console.log('interval:', interval);
     const nextPracticeDate = moment()
       .add(interval, 'day')
       .format();
-    console.log(nextPracticeDate);
 
     const udpatedCard = { ...card };
     udpatedCard.repetition = repetition;
@@ -218,8 +221,7 @@ class Card extends Component {
     index = index + 1;
     this.setState({ index, isAnswered: false });
 
-    const { data } = await saveCard(this.mapToModel(next));
-    console.log(data);
+    await saveCard(this.mapToModel(next));
   };
 
   handleDelete = async () => {
@@ -227,8 +229,7 @@ class Card extends Component {
     const cardId = cards[index]._id;
     index = index + 1;
     this.setState({ index, isAnswered: false });
-    const { data } = await deleteCard(cardId);
-    console.log('deleted', data);
+    await deleteCard(cardId);
   };
 
   renderButton = (quality, text, style) => {

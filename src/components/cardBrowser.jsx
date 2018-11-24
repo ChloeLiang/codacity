@@ -79,8 +79,7 @@ class CardBrowser extends Component {
     this.setState({ cards });
 
     try {
-      const { data: card } = await deleteCard(cardId);
-      console.log(card);
+      await deleteCard(cardId);
     } catch (ex) {
       if (ex.response && ex.response.status === 404) {
         toast.error('This movie has already been deleted.');

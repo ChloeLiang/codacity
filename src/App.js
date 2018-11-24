@@ -20,6 +20,7 @@ import CardForm from './components/cardForm';
 import Card from './components/card';
 import CardBrowser from './components/cardBrowser';
 import ProtectedRoute from './components/protectedRoute';
+import NotFound from './components/notFound';
 import auth from './services/userService';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -95,8 +96,9 @@ class App extends Component {
                 <ProtectedRoute path="/cards" component={CardBrowser} />
                 <ProtectedRoute path="/decks/:id/cards" component={Card} />
                 <ProtectedRoute path="/decks" component={Decks} />} />
+                <Route path="/not-found" component={NotFound} />
                 <Redirect from="/" exact to="/decks" />
-                <Redirect from="*" to="/" />
+                <Redirect to="/not-found" />
               </Switch>
             </div>
           </Grid>

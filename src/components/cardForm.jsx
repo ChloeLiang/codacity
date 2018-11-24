@@ -71,8 +71,7 @@ class CardForm extends Form {
     data.back = '';
     this.setState({ data });
 
-    const { data: result } = await saveCard(card);
-    console.log(result);
+    await saveCard(card);
   };
 
   render() {

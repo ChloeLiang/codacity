@@ -110,8 +110,7 @@ class Decks extends Form {
     d[0].name = updatedDeck.name;
     this.setState({ decks, isEditing });
 
-    const { data: deck } = await saveDeck(updatedDeck);
-    console.log('deck', deck);
+    await saveDeck(updatedDeck);
   };
 
   handleCancel = () => {
