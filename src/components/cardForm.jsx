@@ -54,7 +54,6 @@ class CardForm extends Form {
       this.setState({ data: this.mapToModel(card) });
     } catch (ex) {
       if (ex.response && ex.response.status === 404)
-        //TODO: create a not found page
         this.props.history.replace('/not-found');
     }
   }
