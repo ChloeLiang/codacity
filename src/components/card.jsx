@@ -185,6 +185,16 @@ class Card extends Component {
     };
   };
 
+  getIntervalAndUnit = intervalInDays => {
+    if (intervalInDays <= 30) {
+      return intervalInDays + ' D';
+    } else if (intervalInDays <= 30 * 12) {
+      return (intervalInDays / 30).toFixed(1) + ' M';
+    } else {
+      return (intervalInDays / 365).toFixed(1) + ' Y';
+    }
+  };
+
   getUpdatedCard = (card, quality) => {
     const { repetition, easiness, interval } = this.getParams(card, quality);
 
@@ -234,6 +244,8 @@ class Card extends Component {
 
   renderButton = (quality, text, style) => {
     const { cards, index } = this.state;
+    const intervalInDays = this.getParams(cards[index], quality).interval;
+    const interval = this.getIntervalAndUnit(intervalInDays);
 
     return (
       <Button
@@ -242,7 +254,7 @@ class Card extends Component {
         color="primary"
         className={style}
       >
-        {this.getParams(cards[index], quality).interval + ' d'}
+        {interval}
         <br />
         {text}
       </Button>
