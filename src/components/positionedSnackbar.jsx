@@ -19,20 +19,34 @@ class PositionedSnackbar extends Component {
 
   render() {
     const { vertical, horizontal } = this.state;
-    const { classes, open, onClose, onUndo } = this.props;
+    const {
+      classes,
+      messageInfo,
+      open,
+      onClose,
+      onExited,
+      onUndo,
+    } = this.props;
     return (
       <div>
         <Snackbar
+          key={messageInfo.key}
           anchorOrigin={{ vertical, horizontal }}
           open={open}
           autoHideDuration={6000}
           onClose={onClose}
+          onExited={onExited}
           ContentProps={{
             'aria-describedby': 'message-id',
           }}
-          message={<span id="message-id">Undo</span>}
+          message={<span id="message-id">{messageInfo.message}</span>}
           action={[
-            <Button key="undo" color="secondary" size="small" onClick={onUndo}>
+            <Button
+              key="undo"
+              color="secondary"
+              size="small"
+              onClick={() => onUndo(messageInfo.data)}
+            >
               UNDO
             </Button>,
             <IconButton

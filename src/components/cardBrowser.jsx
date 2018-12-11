@@ -12,7 +12,8 @@ import Select from '@material-ui/core/Select';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import SingleItem from './singleItem';
 import Spinner from './spinner';
-import { getCardsInDeck, deleteCard } from '../services/cardService';
+import PositionedSnackbar from './positionedSnackbar';
+import { getCardsInDeck, saveCard, deleteCard } from '../services/cardService';
 import { getDecks } from '../services/deckService';
 
 const styles = theme => ({
@@ -31,12 +32,16 @@ const styles = theme => ({
 });
 
 class CardBrowser extends Component {
+  queue = [];
+
   state = {
     cards: [],
     decks: [],
     selectedDeck: '',
     searchQuery: '',
     isLoading: true,
+    openSnackbar: false,
+    messageInfo: {},
   };
 
   schema = {
@@ -76,10 +81,25 @@ class CardBrowser extends Component {
     e.preventDefault();
     const originalCards = this.state.cards;
     const cards = originalCards.filter(c => c._id !== cardId);
-    this.setState({ cards });
+    this.setState({ cards, openSnackbar: true });
 
     try {
-      await deleteCard(cardId);
+      const { data } = await deleteCard(cardId);
+
+      // Push the data to the queue for undo.
+      this.queue.push({
+        data,
+        message: 'Removed card',
+        key: data._id,
+      });
+
+      if (this.state.openSnackbar) {
+        // Immediately begin dismissing current message
+        // to start showing new one.
+        this.setState({ openSnackbar: false });
+      } else {
+        this.processQueue();
+      }
     } catch (ex) {
       if (ex.response && ex.response.status === 404) {
         toast.error('This movie has already been deleted.');
@@ -87,6 +107,43 @@ class CardBrowser extends Component {
 
       this.setState({ cards: originalCards });
     }
+  };
+
+  handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    this.setState({ openSnackbar: false });
+  };
+
+  handleExited = () => {
+    this.processQueue();
+  };
+
+  processQueue = () => {
+    if (this.queue.length > 0) {
+      this.setState({
+        messageInfo: this.queue.shift(),
+        openSnackbar: true,
+      });
+    }
+  };
+
+  handleUndo = async deletedCard => {
+    this.setState({ openSnackbar: false });
+
+    const newCard = {
+      front: deletedCard.front,
+      back: deletedCard.back,
+      _deck: deletedCard._deck,
+      _creator: deletedCard._creator,
+    };
+
+    const { data: card } = await saveCard(newCard);
+    const cards = [...this.state.cards];
+    cards.push(card);
+    this.setState({ cards });
   };
 
   handleSearch = e => {
@@ -111,7 +168,14 @@ class CardBrowser extends Component {
   };
 
   render() {
-    const { decks, selectedDeck, searchQuery, isLoading } = this.state;
+    const {
+      decks,
+      selectedDeck,
+      searchQuery,
+      isLoading,
+      openSnackbar,
+      messageInfo,
+    } = this.state;
     const { classes } = this.props;
     const cards = this.getFilteredCards();
 
@@ -167,6 +231,13 @@ class CardBrowser extends Component {
             />
           ))}
         </List>
+        <PositionedSnackbar
+          open={openSnackbar}
+          messageInfo={messageInfo}
+          onClose={this.handleCloseSnackbar}
+          onExited={this.handleExited}
+          onUndo={this.handleUndo}
+        />
       </React.Fragment>
     );
   }

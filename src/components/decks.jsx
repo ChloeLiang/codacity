@@ -15,13 +15,7 @@ import Form from './form';
 import UpdateDeckForm from './updateDeckForm';
 import SingleItem from './singleItem';
 import Spinner from './spinner';
-import PositionedSnackbar from './positionedSnackbar';
-import {
-  getDecks,
-  saveDeck,
-  createDeck,
-  deleteDeck,
-} from '../services/deckService';
+import { getDecks, saveDeck, deleteDeck } from '../services/deckService';
 import { getCards } from '../services/cardService';
 import { getCurrentUser } from '../services/userService';
 
@@ -60,7 +54,6 @@ class Decks extends Form {
     errors: {},
     isEditing: null,
     isLoading: true,
-    openSnackbar: false,
   };
 
   schema = {
@@ -97,11 +90,10 @@ class Decks extends Form {
     e.preventDefault();
     const originalDecks = this.state.decks;
     const decks = originalDecks.filter(d => d._id !== deckId);
-    this.setState({ decks, openSnackbar: true });
+    this.setState({ decks });
 
     try {
-      const { data } = await deleteDeck(deckId);
-      //TODO: handle undo
+      await deleteDeck(deckId);
     } catch (ex) {
       if (ex.response && ex.response.status === 404) {
         toast.error('This deck has already been deleted.');
@@ -124,12 +116,6 @@ class Decks extends Form {
   handleCancel = () => {
     this.setState({ isEditing: null });
   };
-
-  handleCloseSnackbar = () => {
-    this.setState({ openSnackbar: false });
-  };
-
-  handleUndo = () => {};
 
   doSubmit = async () => {
     const data = { ...this.state.data };
@@ -185,7 +171,7 @@ class Decks extends Form {
 
   render() {
     const { classes } = this.props;
-    const { isLoading, openSnackbar } = this.state;
+    const { isLoading } = this.state;
     const decks = this.getDecksAndCounts();
 
     return (
@@ -207,11 +193,6 @@ class Decks extends Form {
           <Spinner open={isLoading} />
           {decks.map((d, index) => this.renderItem(d, index))}
         </List>
-        <PositionedSnackbar
-          open={openSnackbar}
-          onClose={this.handleCloseSnackbar}
-          onUndo={this.handleUndo}
-        />
         <NavLink to="/cards/new">
           <Button
             variant="fab"
