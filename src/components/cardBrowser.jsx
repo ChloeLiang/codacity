@@ -81,7 +81,7 @@ class CardBrowser extends Component {
     e.preventDefault();
     const originalCards = this.state.cards;
     const cards = originalCards.filter(c => c._id !== cardId);
-    this.setState({ cards, openSnackbar: true });
+    this.setState({ cards });
 
     try {
       const { data } = await deleteCard(cardId);
@@ -111,10 +111,9 @@ class CardBrowser extends Component {
 
   handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
+      this.setState({ openSnackbar: false });
       return;
     }
-
-    this.setState({ openSnackbar: false });
   };
 
   handleExited = () => {
